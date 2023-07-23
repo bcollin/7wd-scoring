@@ -85,6 +85,8 @@
 		tr.track { border: 3px outset #ff0;}
 		tr.track th, tr.track td { border: none; }
 		tr.slimfield th:first-child { position: relative; }
+		.label em { font-weight: bold; }
+		
 		input[type="text"] { width: 4em; }
 	}
 </style>

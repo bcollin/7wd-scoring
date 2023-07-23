@@ -145,30 +145,33 @@ function sumIt(e) {
 </script>
 
 <template>
-	<h1>7 Wonders Duel Score Card</h1>
-	
-	<p>{{dateS}} - {{timeS}}</p>
-	
-	<table @keyup="sumIt">
-		<tr>
-			<th>Score type</th>
-			<th>Player 1</th>
-			<th>Player 2</th>
-		</tr>				
-		<tr>
-			<th>Player names </th> 
-			<td><input type="text" v-model="player[1]['name']" aria-label="Name player 1" data-type="name"></td>
-			<td><input type="text" v-model="player[2]['name']" aria-label="Name player 2" data-type="name"></td>
-		</tr>
-		<twoScoresRow v-for="fields in form" :item="fields" v-model="player"></twoScoresRow>
-	</table>
+	<div id="main">
+		<h1>7 Wonders Duel Score&nbsp;Card</h1>
+		
+		<p class="datetime">{{dateS}} - {{timeS}}</p>
+		
+		<table @keyup="sumIt">
+			<tr>
+				<th>Score type</th>
+				<th>Player 1</th>
+				<th>Player 2</th>
+			</tr>				
+			<tr>
+				<th>Player names </th> 
+				<td><input type="text" v-model="player[1]['name']" aria-label="Name player 1" data-type="name"></td>
+				<td><input type="text" v-model="player[2]['name']" aria-label="Name player 2" data-type="name"></td>
+			</tr>
+			<twoScoresRow v-for="fields in form" :item="fields" v-model="player"></twoScoresRow>
+		</table>
+	</div> <!-- /#main -->
 </template>
 
 <style>
 	* { font-family: sans-serif; }
 	body { margin: .5em; font-size: 16px; }
 	#main { max-width: 100%; }
-	h1 { font-size: 1.6em; }
+	h1 { font-size: 1.6em; text-align: center; }
+	.datetime { text-align: center; }
 	table { display: block; margin-bottom: 1.5em; }
 	tbody { display: block; }
 	tr { display: block; margin-bottom: .75em; }
@@ -196,7 +199,7 @@ function sumIt(e) {
 		tr th:first-child { float: none; width: 18em; }
 		tr:first-child th:first-child { float: none; width: 18em; }
 		tr th:first-child { text-align: left; }
-		xtr:first-child th:first-child { text-align: center; }
+		tr:first-child th:first-child { text-align: center; }
 		td:nth-child(2)::before { content: ""; }
 		td:nth-child(3)::before { content: ""; }
 	}
