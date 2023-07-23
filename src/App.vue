@@ -6,9 +6,9 @@ const now = new Date();
 const dateS = now.toISOString().substr(0,10) 
 const timeS = now.toISOString().substr(11,5);
 
-var player = [];
-player[1] = {'name': ''};
-player[2] = {'name': ''};
+var player = ref([]);
+player.value[1] = {'name': '', score: 0};
+player.value[2] = {'name': '', score: 0};
 const form = [
 	{
 		fieldname: 'sciencetrack',
@@ -104,6 +104,15 @@ const form = [
 	}
 ];
 
+const validKeys = [];
+for (var key in form) {
+	if (form[key].type === 'number') {
+		if (form[key].fieldname !== 'cash') {
+			validKeys.push(form[key].fieldname);
+		}
+	}
+}
+
 function sumIt(e) {
 	var field = e.target;
 	var execute = true;
@@ -114,12 +123,25 @@ function sumIt(e) {
 		execute = false;
 	}
 	if (execute) {
-		// @todo calculate the totals.
-		console.log('summing it...');
+		// Calculate the totals.
+		for (var p=1; p<3; p++) {
+			var sum = 0;
+			for (var index in validKeys) {
+				var value = String(player.value[p][validKeys[index]]);
+				var valIsNumber = value.match(/[0-9]+/);
+				if (valIsNumber) {
+					sum += Number(value);
+				}
+				else {
+					// I could force to 0, but if the user made a typo,
+					// it might be more visible if the field is cleared.
+					player.value[p][validKeys[index]] = '';
+				}
+			}
+			player.value[p]['score'] = sum;
+		}
 	}
-	console.log(player);
 }
-
 </script>
 
 <template>

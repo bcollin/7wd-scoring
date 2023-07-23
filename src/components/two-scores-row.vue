@@ -36,7 +36,7 @@
 		<td v-if="item.type==='number'" title="p1">
 			<input 
 				type="text" 
-				@keyup="forceNum;" 
+				@keyup="forceNum" 
 				:value="modelValue[1][props.item.fieldname]" 
 				@input="emitValue"
 				data-player="1"> 
@@ -51,8 +51,8 @@
 		</td>
 		<td v-if="item.type==='checkbox'" title="p1"><input type="checkbox"> </td>
 		<td v-if="item.type==='checkbox'" title="p2"><input type="checkbox"> </td>
-		<td v-if="item.type==='markup'" title="p1"> points</td>
-		<td v-if="item.type==='markup'" title="p2"> points</td>
+		<td v-if="item.type==='markup'" title="p1">{{modelValue[1].score}} points</td>
+		<td v-if="item.type==='markup'" title="p2">{{modelValue[2].score}} points</td>
 		<td v-if="item.type==='notes'" colspan="2" id="notes-container">
 			<textarea style="width: 100%;" id="notes" maxlength="{{notesMax}}"  @keyup="limitNotesChars();"></textarea>
 			<br><span style="color: black">{{charsLeft}} characters left.</span>
