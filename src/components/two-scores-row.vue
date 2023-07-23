@@ -31,7 +31,7 @@
 		<td v-if="item.type==='checkbox'" title="p2"><input type="checkbox"> </td>
 		<td v-if="item.type==='markup'" title="p1"> points</td>
 		<td v-if="item.type==='markup'" title="p2"> points</td>
-		<td v-if="item.type==='notes'" colspan="2">
+		<td v-if="item.type==='notes'" colspan="2" id="notes-container">
 			<textarea style="width: 100%;" id="notes" maxlength="{{notesMax}}"  @keyup="limitNotesChars();"></textarea>
 			<br><span style="color: black">{{charsLeft}} characters left.</span>
 		</td>
@@ -40,5 +40,30 @@
 
 <style>
 	.info { display: none; }
+	#notes-container:nth-child(2)::before { content: ""; }
+	tr.science { background: #efe; }
+	tr.military { background: #fee; }
+	tr.culture { background: #eef; }
+	tr.commerce { background: #ffd; }
+	tr.money { background: #ffd; }
+	tr.guild { background: #eef; }
+	tr.wonder { background: #eee; }
+	tr.cash { background: #eee; }
+	tr.science th em { color: #080; }
+	tr.military th em { color: #800; }
+	tr.culture th em { color: #008; }
+	tr.commerce th em { color: #660; }
+	tr.guild th em { color: #606; }
+	tr.track td { text-align: center; }
+
+	input[type="text"] { width: 8em; }
+
+	@media (min-width: 533px) {
+		th .label { display: inline; }
+		tr.track { border: 3px outset #ff0;}
+		tr.track th, tr.track td { border: none; }
+		tr.slimfield th:first-child { position: relative; }
+		input[type="text"] { width: 4em; }
+	}
 </style>
 

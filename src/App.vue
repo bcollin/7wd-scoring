@@ -112,3 +112,41 @@ const form = [
 		<twoScoresRow v-for="fields in form" :item="fields"></twoScoresRow>
 	</table>
 </template>
+
+<style>
+	* { font-family: sans-serif; }
+	body { margin: .5em; font-size: 16px; }
+	#main { max-width: 100%; }
+	h1 { font-size: 1.6em; }
+	table { display: block; margin-bottom: 1.5em; }
+	tbody { display: block; }
+	tr { display: block; margin-bottom: .75em; }
+	tr.track { border: 4px solid #ff0;}
+	td, th { display: block; margin: 0px; padding: .125em .5em; line-height: 2; }
+	th { text-align: left; font-weight: bold; }
+	tr:first-child th { display: none; }
+	td:nth-child(2)::before { content: "player 1: "; }
+	td:nth-child(3)::before { content: "player 2: "; }
+	tr th:first-child { text-align: left; }
+	tr:first-child th:first-child { text-align: left; }
+
+	@media (min-width: 321px) {
+		table { max-width: 360px; }
+	}
+	@media (min-width: 533px) {
+		#main { max-width: 32em; }
+		table { border-collapse: collapse; max-width: none; display: table; }
+		table { box-shadow: .5em .5em .5em rgba(0,0,0,.3333); margin-left: 1.2em;  }
+		tbody { display: table-row-group; }
+		tr { display: table-row; margin: 0em; }
+		td, th { display: table-cell; width: 5em;  border: 1px solid #666; vertical-align: top; }
+		th { font-weight: normal; text-align: center; }
+		th:first-child { width: 18em; }
+		tr th:first-child { float: none; width: 18em; }
+		tr:first-child th:first-child { float: none; width: 18em; }
+		tr th:first-child { text-align: left; }
+		xtr:first-child th:first-child { text-align: center; }
+		td:nth-child(2)::before { content: ""; }
+		td:nth-child(3)::before { content: ""; }
+	}
+</style>
