@@ -2,8 +2,11 @@
 	import { ref } from 'vue'
 
 	const props = defineProps({
-		item: Object
+		item: Object,
+		modelValue: Array
 	})
+	
+	defineEmits('update: modelValue');
 
     const notesMax = 200;
 	var charsLeft = ref(notesMax);
@@ -20,13 +23,32 @@
 		var pattern = /[^0-9]/g;
 		e.target.value = value.replaceAll(pattern, '');
 	}
+	
+	function emitValue(e) {
+		let value = e.target.value;
+		props.modelValue[e.target.dataset.player][props.item.fieldname] = value;
+	}
 </script>
 
 <template>
 	<tr :class="item.categories">
 		<th><span class="label" v-html="item.label"></span> <span v-html="item.info" class="info"></span></th>
-		<td v-if="item.type==='number'" title="p1"><input type="text" @keyup="forceNum"> </td>
-		<td v-if="item.type==='number'" title="p2"><input type="text" @keyup="forceNum"> </td>
+		<td v-if="item.type==='number'" title="p1">
+			<input 
+				type="text" 
+				@keyup="forceNum;" 
+				:value="modelValue[1][props.item.fieldname]" 
+				@input="emitValue"
+				data-player="1"> 
+		</td>
+		<td v-if="item.type==='number'" title="p2">
+			<input 
+				type="text" 
+				@keyup="forceNum" 
+				:value="modelValue[2][props.item.fieldname]" 
+				@input="emitValue"
+				data-player="2"> 
+		</td>
 		<td v-if="item.type==='checkbox'" title="p1"><input type="checkbox"> </td>
 		<td v-if="item.type==='checkbox'" title="p2"><input type="checkbox"> </td>
 		<td v-if="item.type==='markup'" title="p1"> points</td>
