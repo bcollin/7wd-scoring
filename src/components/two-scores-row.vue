@@ -64,7 +64,7 @@
 			<input 
 				type="checkbox" 
 				:value="player[2][props.item.fieldname]" 
-				data-player="1"
+				data-player="2"
 				:data-fieldname="item.fieldname"> 
 		</td>
 	</tr>
@@ -75,9 +75,9 @@
 	</tr>
 	<tr :class="item.categories" v-if="item.type==='notes'">
 		<td colspan="3" id="notes-container">
-			<p>Notes</p>
+			<p>Optional notes</p>
 			<textarea style="width: 100%;" id="notes" maxlength="{{notesMax}}"  @keyup="limitNotesChars();"></textarea>
-			<br><span style="color: black">{{charsLeft}} characters left.</span> {{scores.victoryType}}
+			<br><span style="color: black">{{charsLeft}} characters left.</span> 
 		</td>
 	</tr>
 </template>

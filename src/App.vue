@@ -125,13 +125,21 @@ function displayVictoryType(e) {
 		var fieldName = elem.dataset.fieldname;
 		var max = fieldName.length;
 
-		fieldName = fieldName.substr(0,max-5);
+		var trackName = fieldName.substr(0,max-5);
 
 		if (elem.checked) {
-			scores.value.victoryType = fieldName;
+			scores.value.victoryType = trackName;
 		} else {
 			scores.value.victoryType = 'points';
 		}
+		
+		var allCheckBoxes = document.querySelectorAll('#main table .track input');
+		for (var i = 0; i < allCheckBoxes.length; i++) {
+			if (allCheckBoxes[i].dataset.player !== pId || allCheckBoxes[i].dataset.fieldname !== fieldName) {
+				allCheckBoxes[i].checked = false;
+			}
+		}
+		console.log(pId);
 	}
 }
 
