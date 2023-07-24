@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import twoScoresRow from './components/two-scores-row.vue'
+import resultsPane from './components/results-pane.vue';
 
 const now = new Date();
 const dateS = now.toISOString().substr(0,10); 
@@ -193,6 +194,8 @@ function sumIt(e) {
 			</tr>
 			<twoScoresRow v-for="fields in form" :item="fields" v-model:player="player" v-model:scores="scores"></twoScoresRow>
 		</table>
+		
+		<resultsPane v-model:player="player" v-model:scores="scores"></resultsPane>
 	</div> <!-- /#main -->
 </template>
 
