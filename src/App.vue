@@ -1,14 +1,17 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import twoScoresRow from './components/two-scores-row.vue'
 
 const now = new Date();
-const dateS = now.toISOString().substr(0,10) 
+const dateS = now.toISOString().substr(0,10); 
 const timeS = now.toISOString().substr(11,5);
+
+var scores = ref({victoryType: 'points'});
 
 var player = ref([]);
 player.value[1] = {'name': '', score: 0};
 player.value[2] = {'name': '', score: 0};
+
 const form = [
 	{
 		fieldname: 'sciencetrack',
@@ -113,6 +116,25 @@ for (var key in form) {
 	}
 }
 
+// Hide the points fields if the user chooses
+// a track victory.
+function displayVictoryType(e) {
+	var elem = e.target;
+	if (elem.type === 'checkbox') {
+		var pId = elem.dataset.player;
+		var fieldName = elem.dataset.fieldname;
+		var max = fieldName.length;
+
+		fieldName = fieldName.substr(0,max-5);
+
+		if (elem.checked) {
+			scores.value.victoryType = fieldName;
+		} else {
+			scores.value.victoryType = 'points';
+		}
+	}
+}
+
 function sumIt(e) {
 	var field = e.target;
 	var execute = true;
@@ -150,7 +172,7 @@ function sumIt(e) {
 		
 		<p class="datetime">{{dateS}} - {{timeS}}</p>
 		
-		<table @keyup="sumIt">
+		<table @keyup="sumIt" @click="displayVictoryType">
 			<tr>
 				<th>Score type</th>
 				<th>Player 1</th>
@@ -161,7 +183,7 @@ function sumIt(e) {
 				<td><input type="text" v-model="player[1]['name']" aria-label="Name player 1" data-type="name"></td>
 				<td><input type="text" v-model="player[2]['name']" aria-label="Name player 2" data-type="name"></td>
 			</tr>
-			<twoScoresRow v-for="fields in form" :item="fields" v-model="player"></twoScoresRow>
+			<twoScoresRow v-for="fields in form" :item="fields" v-model:player="player" v-model:scores="scores"></twoScoresRow>
 		</table>
 	</div> <!-- /#main -->
 </template>
@@ -197,6 +219,7 @@ function sumIt(e) {
 		th { font-weight: normal; text-align: center; }
 		th:first-child { width: 18em; }
 		tr th:first-child { float: none; width: 18em; }
+		tr:first-child th { display: table-cell; }
 		tr:first-child th:first-child { float: none; width: 18em; }
 		tr th:first-child { text-align: left; }
 		tr:first-child th:first-child { text-align: center; }

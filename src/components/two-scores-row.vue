@@ -3,10 +3,11 @@
 
 	const props = defineProps({
 		item: Object,
-		modelValue: Array
+		player: Array,
+		scores: Object
 	})
 	
-	defineEmits('update: modelValue');
+	defineEmits('update: player');
 
     const notesMax = 200;
 	var charsLeft = ref(notesMax);
@@ -26,36 +27,57 @@
 	
 	function emitValue(e) {
 		let value = e.target.value;
-		props.modelValue[e.target.dataset.player][props.item.fieldname] = value;
+		props.player[e.target.dataset.player][props.item.fieldname] = value;
 	}
 </script>
 
 <template>
-	<tr :class="item.categories">
+	<tr :class="item.categories" v-if="item.type==='number' && scores.victoryType==='points'">
 		<th><span class="label" v-html="item.label"></span> <span v-html="item.info" class="info"></span></th>
-		<td v-if="item.type==='number'" title="p1">
+		<td title="p1">
 			<input 
 				type="text" 
 				@keyup="forceNum" 
-				:value="modelValue[1][props.item.fieldname]" 
+				:value="player[1][props.item.fieldname]" 
 				@input="emitValue"
 				data-player="1"> 
 		</td>
-		<td v-if="item.type==='number'" title="p2">
+		<td title="p2">
 			<input 
 				type="text" 
 				@keyup="forceNum" 
-				:value="modelValue[2][props.item.fieldname]" 
+				:value="player[2][props.item.fieldname]" 
 				@input="emitValue"
 				data-player="2"> 
 		</td>
-		<td v-if="item.type==='checkbox'" title="p1"><input type="checkbox"> </td>
-		<td v-if="item.type==='checkbox'" title="p2"><input type="checkbox"> </td>
-		<td v-if="item.type==='markup'" title="p1">{{modelValue[1].score}} points</td>
-		<td v-if="item.type==='markup'" title="p2">{{modelValue[2].score}} points</td>
-		<td v-if="item.type==='notes'" colspan="2" id="notes-container">
+	</tr>
+	<tr :class="item.categories" v-if="item.type==='checkbox'">
+		<th><span class="label" v-html="item.label"></span> <span v-html="item.info" class="info"></span></th>
+		<td title="p1">
+			<input 
+				type="checkbox" 
+				:value="player[1][props.item.fieldname]" 
+				data-player="1"
+				:data-fieldname="item.fieldname">
+		</td>
+		<td title="p2">
+			<input 
+				type="checkbox" 
+				:value="player[2][props.item.fieldname]" 
+				data-player="1"
+				:data-fieldname="item.fieldname"> 
+		</td>
+	</tr>
+	<tr :class="item.categories" v-if="item.type==='markup' && scores.victoryType==='points'">
+		<th>Total</th>
+		<td title="p1">{{player[1].score}} points</td>
+		<td title="p2">{{player[2].score}} points</td>
+	</tr>
+	<tr :class="item.categories" v-if="item.type==='notes'">
+		<td colspan="3" id="notes-container">
+			<p>Notes</p>
 			<textarea style="width: 100%;" id="notes" maxlength="{{notesMax}}"  @keyup="limitNotesChars();"></textarea>
-			<br><span style="color: black">{{charsLeft}} characters left.</span>
+			<br><span style="color: black">{{charsLeft}} characters left.</span> {{scores.victoryType}}
 		</td>
 	</tr>
 </template>
