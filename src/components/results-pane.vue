@@ -8,7 +8,7 @@
 		validKeys: Array
 	})
 	
-	var suggestions = {};
+	var suggestions = ref([]);
 	var me = getCurrentInstance();
 	
 	// If the result is a win in either the military or scientific
@@ -21,13 +21,12 @@
 	}
 	
 	function callIt(e) {
-		if (props.scores.victoryType !== 'points' || suggestions.length < 1) {
+		if (props.scores.victoryType !== 'points') {
 			props.scores.validScore = true;
 		}
 
 		if (!props.scores.validScore) {
 			checkResults();
-			return false;
 		}
 		
 		var logObj = {dt: props.scores.datetime};
@@ -57,8 +56,11 @@
 		// necessary, surely this is not the way to do it?
 		me.parent.devtoolsRawSetupState.sumIt();
 		
-		suggestions = {};
+		suggestions.value = [];
 		
+		// To add a value: 
+		// suggestions.value.push({type: 'info', message: 'test'});
+
 		var maxTypes = props.validKeys.length;
 		for (var p = 1; p<3; p++) {
 			for (var i = 0; i < maxTypes; i++) {
@@ -72,13 +74,27 @@
 </script>
 
 <template>
-	<div> <!-- this div is necessary to make sure Vue doesn't complain 
-	about the emitter not being tied to some sort of root node. -->
-		<div id="results"> 
-			<p class="center" v-if="scores.result === ''">
+	<div id="results"> 
+		<div> 
+			<p class="center" v-if="scores.result === '' && suggestions.length === 0">
 				<button class="cta" @click="callIt">Call it</button>
 			</p>
 			
+			<div id="suggestions" v-if="suggestions.length > 0">
+				<h2>Are you sure?</h2>
+
+				<ul v-for="item in suggestions">
+					<li class="{{item.type}}">{{item.message}}</li>
+				</ul>
+
+				<p>You may have made mistakes in your scoring. Please check the form and then click one of the buttons below.</p>
+
+				<p class="buttons center">
+					<button @click="suggestions.value = []; scores.validScore = true; callIt();">I am sure, call it</button> 
+					<button @click="callIt();">Check again</button>
+				</p>
+			</div>
+
 			<div id="result" v-if="scores.result !== ''">
 				<em>{{scores.result}}</em>
 			</div>
