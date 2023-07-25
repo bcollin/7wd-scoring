@@ -7,7 +7,7 @@ const now = new Date();
 const dateS = now.toISOString().substr(0,10); 
 const timeS = now.toISOString().substr(11,5);
 
-var scores = ref({victoryType: 'points'});
+var scores = ref({victoryType: 'points', validScore: false, result: ''});
 
 var player = ref([]);
 player.value[1] = {'name': '', score: 0};

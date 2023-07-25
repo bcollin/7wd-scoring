@@ -23,6 +23,22 @@
 		var value = e.target.value;
 		var pattern = /[^0-9]/g;
 		e.target.value = value.replaceAll(pattern, '');
+
+		if (e.target.parentElement.parentElement.classList.contains('cash')) {
+			setMoneyPoints(e.target);
+		}
+	}
+	
+	// The user has the option to fill out money points 
+	// manually or have them calculated by filling out
+	// the coins value.
+	function setMoneyPoints(field) {
+		var pId = field.dataset.player;
+		var pString = 'p' + pId;
+		var cash = field.value;
+		var points = Math.floor(cash/3);
+
+		props.player[pId].cashpoints = points;
 	}
 	
 	function emitValue(e) {

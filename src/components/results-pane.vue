@@ -8,18 +8,23 @@
 	
 	defineEmits('update: player');
 
-    const notesMax = 200;
-	var charsLeft = ref(notesMax);
+	var suggestions = {};
 	
-	function checkResults(e) {
+	function callIt(e) {
+		if (!props.scores.validScore) {
+			checkResults();
+		}
+	}
+	
+	function checkResults() {
 		console.log(props.player, props.scores);
 	}
 </script>
 
 <template>
 	<div id="results"> 
-		<p class="center">
-			<button class="cta" @click="checkResults">Call it</button>
+		<p class="center" v-if="scores.result === ''">
+			<button class="cta" @click="callIt">Call it</button>
 		</p>
 	</div> <!-- /#results -->
 </template>
