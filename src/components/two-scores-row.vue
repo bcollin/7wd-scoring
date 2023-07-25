@@ -7,7 +7,7 @@
 		scores: Object
 	})
 	
-	defineEmits('update: player');
+	defineEmits(['update: player', 'update: scores']);
 
     const notesMax = 200;
 	var charsLeft = ref(notesMax);
@@ -43,7 +43,12 @@
 	
 	function emitValue(e) {
 		let value = e.target.value;
-		props.player[e.target.dataset.player][props.item.fieldname] = value;
+		if (e.target.type === 'textarea') {
+			props.scores.notes = value;
+		}
+		else {
+			props.player[e.target.dataset.player][props.item.fieldname] = value;
+		}
 	}
 </script>
 
@@ -73,6 +78,7 @@
 			<input 
 				type="checkbox" 
 				:value="player[1][props.item.fieldname]" 
+				@input="emitValue"
 				data-player="1"
 				:data-fieldname="item.fieldname">
 		</td>
@@ -80,6 +86,7 @@
 			<input 
 				type="checkbox" 
 				:value="player[2][props.item.fieldname]" 
+				@input="emitValue"
 				data-player="2"
 				:data-fieldname="item.fieldname"> 
 		</td>
@@ -92,7 +99,7 @@
 	<tr :class="item.categories" v-if="item.type==='notes'">
 		<td colspan="3" id="notes-container">
 			<p>Optional notes</p>
-			<textarea style="width: 100%;" id="notes" maxlength="{{notesMax}}"  @keyup="limitNotesChars();"></textarea>
+			<textarea style="width: 100%;" id="notes" maxlength="{{notesMax}}"  @keyup="limitNotesChars()" @input="emitValue"></textarea>
 			<br><span style="color: black">{{charsLeft}} characters left.</span> 
 		</td>
 	</tr>

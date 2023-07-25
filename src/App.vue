@@ -7,7 +7,9 @@ const now = new Date();
 const dateS = now.toISOString().substr(0,10); 
 const timeS = now.toISOString().substr(11,5);
 
-var scores = ref({victoryType: 'points', validScore: false, result: ''});
+const defaultScores = {victoryType: 'points', validScore: false, result: '', datetime: dateS + ' ' + timeS};
+var scores = ref({});
+setScores();
 
 var player = ref([]);
 player.value[1] = {'name': '', score: 0};
@@ -117,6 +119,19 @@ for (var key in form) {
 	}
 }
 
+function setScores() {
+	Object.assign(scores.value, defaultScores);
+}
+
+function resetForm() {
+	var elemRoot = document.querySelector('#main');
+	var elemMsg = document.querySelector('#reload-message');
+	elemMsg.className = 'reloading';
+	elemRoot.className = 'reloading';
+	location.reload();
+	// setScores();
+}
+
 // Hide the points fields if the user chooses
 // a track victory.
 function displayVictoryType(e) {
@@ -140,18 +155,19 @@ function displayVictoryType(e) {
 				allCheckBoxes[i].checked = false;
 			}
 		}
-		console.log(pId);
 	}
 }
 
 function sumIt(e) {
-	var field = e.target;
 	var execute = true;
-	if (field.dataset.type !== undefined && field.dataset.type === 'name') {
-		execute = false;
-	}
-	if (field.id === 'notes') {
-		execute = false;
+	if (e !== undefined) {
+		var field = e.target;
+		if (field.dataset.type !== undefined && field.dataset.type === 'name') {
+			execute = false;
+		}
+		if (field.id === 'notes') {
+			execute = false;
+		}
 	}
 	if (execute) {
 		// Calculate the totals.
@@ -195,14 +211,16 @@ function sumIt(e) {
 			<twoScoresRow v-for="fields in form" :item="fields" v-model:player="player" v-model:scores="scores"></twoScoresRow>
 		</table>
 		
-		<resultsPane v-model:player="player" v-model:scores="scores"></resultsPane>
+		<resultsPane v-model:player="player" v-model:scores="scores" v-model:validKeys="validKeys" @resetform='resetForm' ></resultsPane>
 	</div> <!-- /#main -->
+	<div id="reload-message">Reloading...</div>
 </template>
 
 <style>
 	* { font-family: sans-serif; }
-	body { margin: .5em; font-size: 16px; }
+	body { background: #fff; color: #000; margin: .5em; font-size: 16px; }
 	#main { max-width: 100%; }
+	#main.reloading { opacity: 0; transition: opacity 1s; }
 	h1 { font-size: 1.6em; text-align: center; }
 	.datetime { text-align: center; }
 	table { display: block; margin-bottom: 1.5em; }
@@ -216,6 +234,8 @@ function sumIt(e) {
 	td:nth-child(3)::before { content: "player 2: "; }
 	tr th:first-child { text-align: left; }
 	tr:first-child th:first-child { text-align: left; }
+	#reload-message { display: none; position: absolute; top: 0em; left: 0em; max-width: 32em; padding: 5em; background: #fff; font-weight: bold; }
+	#reload-message.reloading { display: block; }
 
 	@media (min-width: 321px) {
 		table { max-width: 360px; }
