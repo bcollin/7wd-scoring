@@ -11,6 +11,11 @@
 	var suggestions = ref([]);
 	var me = getCurrentInstance();
 	
+	function isValidScoreValue(a) {
+		var pattern = /^[0-9]+$/;
+		return pattern.test(String(a));
+	}
+	
 	// If the result is a win in either the military or scientific
 	// track, return the player number e {1,2}.
 	function getTrackWinner() {
@@ -61,15 +66,41 @@
 		// To add a value: 
 		// suggestions.value.push({type: 'info', message: 'test'});
 
+		var someFieldsHaveValues = false; 
 		var maxTypes = props.validKeys.length;
 		for (var p = 1; p<3; p++) {
 			for (var i = 0; i < maxTypes; i++) {
-				// @todo Check for empty fields; this could (and will) 
-				//   be used in a number of suggestions, e.g.
-				//   if all fields are empty the suggestion that the
-				//   user forgot to fill out the form.
+				var value = props.player[p][props.validKeys[i]];
+				if (isValidScoreValue(value)) {
+					someFieldsHaveValues = true;
+				}
 			}
 		}
+		
+		if (!someFieldsHaveValues) {
+			suggestions.value.push({type: 'warning', message: 'You seem to have filled out no points and selected no victory track.'});
+		}
+		
+		var mil1 = props.player[1].militarypoints === undefined ? 0 : props.player[1].militarypoints;
+		var mil2 = props.player[2].militarypoints === undefined ? 0 : props.player[2].militarypoints;
+		
+		if (mil1 > 0 && mil2 > 0) {
+			suggestions.value.push({'type': 'warning', 'message': 'You filled out military board points for both players, but only one player can get such points.'});
+		}
+
+		var validMilPoints = [0,2,5,10];
+		if (!validMilPoints.includes(Number(mil1)) ||!validMilPoints.includes(Number(mil2))) {
+			var errorPlayers = [];
+			if (!validMilPoints.includes(mil1)) { 
+				errorPlayers[0] = 'player 1';
+			}
+			if (!validMilPoints.includes(mil2)) { 
+				errorPlayers[errorPlayers.length] = 'player 2';
+			}
+				
+			suggestions.value.push({'type': 'warning', 'message': 'A player can receive 0, 2, 5 or 10 military board points. The following players have invalid amounts: ' + errorPlayers.toString() + '.'});
+		}
+
 	}
 </script>
 
