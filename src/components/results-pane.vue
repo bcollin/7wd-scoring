@@ -1,6 +1,7 @@
 <script setup>
 	import { ref, toRaw } from 'vue'
 	import { getCurrentInstance } from 'vue'
+	import localStorageLib from '../local-storage.js'
 
 	const props = defineProps({
 		player: Array,
@@ -12,6 +13,7 @@
 	
 	var suggestions = ref([]);
 	var me = getCurrentInstance();
+	var resultPhrase = ref('');
 	
 	function isValidScoreValue(a) {
 		var pattern = /^[0-9]+$/;
@@ -27,6 +29,16 @@
 		if (props.player[2].militarytrack) {return [2, 'Military win']; }
 	}
 	
+	function parseResultItem(item) {
+		if (typeof item !== 'object') { return ''; }
+		var out = '';
+		
+		const winningPlayer = localStorageLib.phraseWinners(item.winner, item.players);
+		out = item.result + ' ' + winningPlayer + ' ';
+		
+		return out;
+	};
+
 	function callIt(e) {
 		if (props.scores.victoryType !== 'points') {
 			props.scores.validScore = true;
@@ -58,12 +70,11 @@
 						winner = 2;
 					}
 				}
-				console.log('Calculating the points victory...');
 			}
 			else {
 				var temp = getTrackWinner();
 				winner = temp[0];
-				props.scores.result = temp[1] + ' player ' + winner;
+				props.scores.result = temp[1];
 			}
 			
 			logObj.result = props.scores.result;
@@ -72,10 +83,9 @@
 			logObj.player1 = toRaw(props.player[1]);
 			logObj.player2 = toRaw(props.player[2]);
 			
-			console.log(logObj);
-			
-			// @todo Add the logObj to something that stores and displays them.
 			emit('logobjectcreated', logObj);
+
+			resultPhrase = ref(parseResultItem(logObj));
 		}
 	}
 	
@@ -152,7 +162,7 @@
 			</div>
 
 			<div id="result" v-if="scores.result !== ''">
-				<em>{{scores.result}}</em>
+				<em>{{resultPhrase}}</em>
 			</div>
 		</div> <!-- /#results -->
 		<p class="center" v-if="scores.result !== ''">

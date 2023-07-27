@@ -1,6 +1,6 @@
 <script setup>
 import { ref, toRaw } from 'vue'
-import URLs from './local-storage.js'
+import localStorageLib from './local-storage.js'
 import twoScoresRow from './components/two-scores-row.vue'
 import resultsPane from './components/results-pane.vue';
 import gamesLog from './components/games-log.vue';
@@ -139,7 +139,7 @@ function resetForm() {
 function addLogObject(logItem) {
 	gamesLogItems.value.push(logItem);
 	const gamesLogString = JSON.stringify(toRaw(gamesLogItems.value));
-	localStorage.setItem(URLs.STORAGE, gamesLogString);
+	localStorage.setItem(localStorageLib.STORAGE, gamesLogString);
 }
 
 // Hide the points fields if the user chooses
@@ -221,8 +221,15 @@ function sumIt(e) {
 			<twoScoresRow v-for="fields in form" :item="fields" v-model:player="player" v-model:scores="scores"></twoScoresRow>
 		</table>
 		
-		<resultsPane v-model:player="player" v-model:scores="scores" v-model:validKeys="validKeys" @resetform='resetForm' @logobjectcreated="addLogObject" ></resultsPane>
-		<gamesLog v-model:gamesLogItems="gamesLogItems"></gamesLog>
+		<resultsPane 
+			v-model:player="player" 
+			v-model:scores="scores" 
+			v-model:validKeys="validKeys" 
+			@resetform='resetForm' 
+			@logobjectcreated="addLogObject" 
+		></resultsPane>
+		<gamesLog 
+			v-model:gamesLogItems="gamesLogItems" ></gamesLog>
 	</div> <!-- /#main -->
 	<div id="reload-message">Reloading...</div>
 </template>
