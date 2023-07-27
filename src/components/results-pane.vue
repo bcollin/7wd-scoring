@@ -8,6 +8,8 @@
 		validKeys: Array
 	})
 	
+	const emit = defineEmits(['logobjectcreated']);
+	
 	var suggestions = ref([]);
 	var me = getCurrentInstance();
 	
@@ -33,26 +35,48 @@
 		if (!props.scores.validScore) {
 			checkResults();
 		}
-		
-		var logObj = {dt: props.scores.datetime};
-		logObj.players = {1: props.player[1].name, 2: props.player[2].name}
-		
-		var winner = 0;
-		if (props.scores.victoryType === 'points') {
-		}
-		else {
-			var temp = getTrackWinner();
-			winner = temp[0];
-			props.scores.result = temp[1] + ' player ' + winner;
+
+		if (suggestions.value.length === 0) {
+			props.scores.validScore = true;
 		}
 		
-		logObj.result = props.scores.result;
-		logObj.winner = winner;
-		logObj.notes = props.scores.notes;
-		logObj.player1 = toRaw(props.player[1]);
-		logObj.player2 = toRaw(props.player[2]);
-		
-		// @todo Add the logObj to something that stores and displays them.
+		if (props.scores.validScore) {
+			var logObj = {dt: props.scores.datetime};
+			logObj.players = {1: props.player[1].name, 2: props.player[2].name}
+			
+			var winner = 0;
+			if (props.scores.victoryType === 'points') {
+				if (props.player[1].score === props.player[2].score) {
+					props.scores.result = 'Draw';
+				}
+				else {
+					props.scores.result = 'Points win';
+					if (props.player[1].score > props.player[2].score) {
+						winner = 1;
+					}
+					else {
+						winner = 2;
+					}
+				}
+				console.log('Calculating the points victory...');
+			}
+			else {
+				var temp = getTrackWinner();
+				winner = temp[0];
+				props.scores.result = temp[1] + ' player ' + winner;
+			}
+			
+			logObj.result = props.scores.result;
+			logObj.winner = winner;
+			logObj.notes = props.scores.notes;
+			logObj.player1 = toRaw(props.player[1]);
+			logObj.player2 = toRaw(props.player[2]);
+			
+			console.log(logObj);
+			
+			// @todo Add the logObj to something that stores and displays them.
+			emit('logobjectcreated', logObj);
+		}
 	}
 	
 	function checkResults() {
@@ -111,7 +135,7 @@
 				<button class="cta" @click="callIt">Call it</button>
 			</p>
 			
-			<div id="suggestions" v-if="suggestions.length > 0">
+			<div id="suggestions" v-if="suggestions.length > 0 && scores.result === ''">
 				<h2>Are you sure?</h2>
 
 				<ul v-for="item in suggestions">
@@ -122,7 +146,8 @@
 
 				<p class="buttons center">
 					<button @click="suggestions.value = []; scores.validScore = true; callIt();">I am sure, call it</button> 
-					<button @click="callIt();">Check again</button>
+
+					<button class="cta" @click="callIt();">Check again</button>
 				</p>
 			</div>
 
@@ -131,7 +156,7 @@
 			</div>
 		</div> <!-- /#results -->
 		<p class="center" v-if="scores.result !== ''">
-			<button @click="$emit('resetform')"><span>Reset form</span></button>
+			<button class="de-emphasize" @click="$emit('resetform')"><span>Reset form</span></button>
 		</p>
 	</div>
 </template>
@@ -151,6 +176,14 @@
 	}
 	#results button.cta { 
 		background: #393; 
+	}
+	#results button.de-emphasize {
+		padding: .75em;
+		font-size: 1.6em;
+	}
+	#results button:active {
+		box-shadow: inset 2px 2px 2px rgba(0,0,0,.25);
+		transition: box-shadow 1s;
 	}
 	#results .warning { 
 		color: #860; 
