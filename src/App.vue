@@ -1,5 +1,6 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, toRaw } from 'vue'
+import URLs from './local-storage.js'
 import twoScoresRow from './components/two-scores-row.vue'
 import resultsPane from './components/results-pane.vue';
 import gamesLog from './components/games-log.vue';
@@ -137,6 +138,8 @@ function resetForm() {
 
 function addLogObject(logItem) {
 	gamesLogItems.value.push(logItem);
+	const gamesLogString = JSON.stringify(toRaw(gamesLogItems.value));
+	localStorage.setItem(URLs.STORAGE, gamesLogString);
 }
 
 // Hide the points fields if the user chooses
