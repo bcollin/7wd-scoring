@@ -36,9 +36,11 @@
 		var pId = field.dataset.player;
 		var pString = 'p' + pId;
 		var cash = field.value;
-		var points = Math.floor(cash/3);
+		if (cash !== '') {
+			var points = Math.floor(cash/3);
 
-		props.player[pId].cashpoints = points;
+			props.player[pId].cashpoints = points;
+		}
 	}
 	
 	function emitValue(e) {
