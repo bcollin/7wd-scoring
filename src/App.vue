@@ -4,6 +4,7 @@ import localStorageLib from './local-storage.js'
 import twoScoresRow from './components/two-scores-row.vue'
 import resultsPane from './components/results-pane.vue';
 import gamesLog from './components/games-log.vue';
+import appSettings from './components/app-settings.vue';
 
 const now = new Date();
 const dateS = now.toISOString().substr(0,10); 
@@ -230,6 +231,7 @@ function sumIt(e) {
 		></resultsPane>
 		<gamesLog 
 			v-model:gamesLogItems="gamesLogItems" ></gamesLog>
+		<appSettings></appSettings>
 	</div> <!-- /#main -->
 	<div id="reload-message">Reloading...</div>
 </template>
