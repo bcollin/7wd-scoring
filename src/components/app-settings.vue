@@ -1,13 +1,16 @@
 <script setup>
 	import { ref } from 'vue';
 	import settingsObj from '../services/settings.js';
-	import singleSetting from './single-setting.vue';
 </script>
 
 <template>
 	<h2>Settings</h2>
 	
-	<singleSetting :setting="setting" v-for="setting in settingsObj.settings"></singleSetting>
+	<div class="settings" v-for="(value, key) in settingsObj.settings">
+		<div class="setting">
+			<label><input type="checkbox" v-model="settingsObj.settings[key].value">  {{value.label}}</label>
+		</div>
+	</div> <!-- /.settings -->
 </template>
 
 <style>

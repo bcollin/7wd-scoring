@@ -247,7 +247,7 @@ function sumIt(e) {
 	tbody { display: block; }
 	tr { display: block; margin-bottom: .75em; }
 	tr.track { border: 4px solid #ff0;}
-	td, th { display: block; margin: 0px; padding: .125em .5em; line-height: 2; }
+	td, th { display: block; margin: 0px; padding: .5em; line-height: 1.2; }
 	th { text-align: left; font-weight: bold; }
 	tr:first-child th { display: none; }
 	td:nth-child(2)::before { content: "player 1: "; }
