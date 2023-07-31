@@ -115,15 +115,16 @@
 			suggestions.value.push({type: 'warning', message: 'You seem to have filled out no points and selected no victory track.'});
 		}
 		
-		var mil1 = props.player[1].militarypoints === undefined ? 0 : props.player[1].militarypoints;
-		var mil2 = props.player[2].militarypoints === undefined ? 0 : props.player[2].militarypoints;
+		var mil1 = props.player[1].militarypoints === undefined ? 0 : Number(props.player[1].militarypoints);
+		var mil2 = props.player[2].militarypoints === undefined ? 0 : Number(props.player[2].militarypoints);
 		
 		if (mil1 > 0 && mil2 > 0) {
 			suggestions.value.push({'type': 'warning', 'message': 'You filled out military board points for both players, but only one player can get such points.'});
 		}
 
 		var validMilPoints = [0,2,5,10];
-		if (!validMilPoints.includes(Number(mil1)) ||!validMilPoints.includes(Number(mil2))) {
+		if (!validMilPoints.includes(mil1) ||!validMilPoints.includes(mil2)) {
+			console.log();
 			var errorPlayers = [];
 			if (!validMilPoints.includes(mil1)) { 
 				errorPlayers[0] = 'player 1';
@@ -134,7 +135,6 @@
 				
 			suggestions.value.push({'type': 'warning', 'message': 'A player can receive 0, 2, 5 or 10 military board points. The following players have invalid amounts: ' + errorPlayers.toString() + '.'});
 		}
-
 	}
 </script>
 
