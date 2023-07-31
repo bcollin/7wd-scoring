@@ -9,10 +9,9 @@
 		validKeys: Array
 	})
 	
-	const emit = defineEmits(['logobjectcreated']);
+	const emit = defineEmits(['logobjectcreated', 'sumit']);
 	
 	var suggestions = ref([]);
-	var me = getCurrentInstance();
 	var resultPhrase = ref('');
 	
 	function isValidScoreValue(a) {
@@ -91,9 +90,8 @@
 	
 	function checkResults() {
 	
-		// One last summing? Is this even necessary? And if it is 
-		// necessary, surely this is not the way to do it?
-		me.parent.devtoolsRawSetupState.sumIt();
+		// One last summing? Is this even necessary?
+		emit('sumit');
 		
 		suggestions.value = [];
 		

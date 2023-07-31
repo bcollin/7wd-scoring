@@ -171,15 +171,16 @@ function displayVictoryType(e) {
 
 function sumIt(e) {
 	var execute = true;
+
+	// Do not calculate the totals if we are typing in the 'notes'
+	//       or 'name' fields.
 	if (e !== undefined) {
 		var field = e.target;
-		if (field.dataset.type !== undefined && field.dataset.type === 'name') {
-			execute = false;
-		}
-		if (field.id === 'notes') {
+		if (['name_p1', 'name_p2', 'notes'].includes(field.id)) {
 			execute = false;
 		}
 	}
+
 	if (execute) {
 		// Calculate the totals.
 		for (var p=1; p<3; p++) {
@@ -216,8 +217,8 @@ function sumIt(e) {
 			</tr>				
 			<tr>
 				<th>Player names </th> 
-				<td><input type="text" v-model="player[1]['name']" aria-label="Name player 1" data-type="name"></td>
-				<td><input type="text" v-model="player[2]['name']" aria-label="Name player 2" data-type="name"></td>
+				<td><input type="text" id="name_p1" v-model="player[1]['name']" aria-label="Name player 1" data-type="name"></td>
+				<td><input type="text" id="name_p2" v-model="player[2]['name']" aria-label="Name player 2" data-type="name"></td>
 			</tr>
 			<twoScoresRow v-for="fields in form" :item="fields" v-model:player="player" v-model:scores="scores"></twoScoresRow>
 		</table>
@@ -228,6 +229,7 @@ function sumIt(e) {
 			v-model:validKeys="validKeys" 
 			@resetform='resetForm' 
 			@logobjectcreated="addLogObject" 
+			@sumit="sumIt"
 		></resultsPane>
 		<gamesLog 
 			v-model:gamesLogItems="gamesLogItems" ></gamesLog>
