@@ -1,6 +1,8 @@
 <script setup>
-	import { ref } from 'vue';
+	import { ref, watch } from 'vue';
 	import settingsObj from '../services/settings.js';
+	
+	watch(settingsObj.settings, function(oldVal, newVal){ settingsObj.saveSettings(); });
 </script>
 
 <template>
