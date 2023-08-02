@@ -33,6 +33,6 @@ export default defineConfig({
 		vue(),
 		VitePWA(pWAConfig)
 	],
-	base: "",
+	base: '',
 })
 
