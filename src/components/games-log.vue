@@ -1,6 +1,6 @@
 <script setup>
 	import { ref, toRaw } from 'vue'
-	import localStorageLib from '../local-storage.js'
+	import localStorageSvc from '../local-storage.js'
 
 	const props = defineProps({
 		gamesLogItems: Array
@@ -8,12 +8,7 @@
 
 	var emptyLog = {...props.gamesLogItems};
 	
-	var loadedLog = (function(storage) {
-			var games = localStorage.getItem(storage);
-			var pastGames = JSON.parse(games);
-			// if (pastGames === null) { pastGames = []; }
-			return pastGames;
-		} (localStorageLib.STORAGE));
+	var loadedLog = localStorageSvc.read([], 'scores');
 	
 	if (loadedLog !== null) {
 		for (var key in loadedLog) {
@@ -66,7 +61,7 @@
 		if (typeof item !== 'object') { return ''; }
 		var out = '';
 		
-		const winningPlayer = localStorageLib.phraseWinners(item.winner, item.players);
+		const winningPlayer = localStorageSvc.phraseWinners(item.winner, item.players);
 		out = item.dt + ', ' + item.result + ' ' + winningPlayer + ' ';
 		
 		return out;

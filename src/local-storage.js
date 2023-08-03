@@ -1,4 +1,9 @@
-const STORAGE = '7wd-scoring-scores';
+import { toRaw } from 'vue';
+
+const STORAGE = {
+	scores: '7wd-scoring-scores', 
+	settings: '7wd-scoring-settings'
+};
 
 function phraseWinners(winner, players) {
 	if (winner === undefined) { winner = 0; }
@@ -21,9 +26,41 @@ function phraseWinners(winner, players) {
 	return winningPlayer;
 };
 
+function write(content, type) {
+	if (['scores', 'settings'].includes(type)) {
+		const contentString = JSON.stringify(toRaw(content));
+		localStorage.setItem(STORAGE.scores, contentString);
+	}
+}
+
+function read(defaults, type) {
+	var contents = localStorage.getItem(STORAGE[type]);
+
+	var out = JSON.parse(contents);
+
+	if (typeof defaults === typeof out) {
+		out = mergeDefaults(out, defaults);
+	}
+	
+	return out;
+}
+
+function mergeDefaults(inSet, defaultSet) {
+	var clone = structuredClone(defaultSet);
+	var outSet = inSet;
+	for (var key in clone) {
+		if (outSet[key] === undefined) {
+			outSet[key] = clone[key];
+		}
+	}
+	
+	return outSet;
+}
 
 export default {
 	STORAGE: STORAGE,
-	phraseWinners: phraseWinners
+	phraseWinners: phraseWinners,
+	write: write,
+	read: read
 }
 

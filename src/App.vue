@@ -1,6 +1,6 @@
 <script setup>
 import { ref, toRaw } from 'vue'
-import localStorageLib from './local-storage.js'
+import localStorageSvc from './local-storage.js'
 import twoScoresRow from './components/two-scores-row.vue'
 import resultsPane from './components/results-pane.vue';
 import gamesLog from './components/games-log.vue';
@@ -134,13 +134,11 @@ function resetForm() {
 	elemMsg.className = 'reloading';
 	elemRoot.className = 'reloading';
 	location.reload();
-	// setScores();
 }
 
 function addLogObject(logItem) {
 	gamesLogItems.value.push(logItem);
-	const gamesLogString = JSON.stringify(toRaw(gamesLogItems.value));
-	localStorage.setItem(localStorageLib.STORAGE, gamesLogString);
+	localStorageSvc.write(gamesLogItems.value, 'scores');
 }
 
 // Hide the points fields if the user chooses

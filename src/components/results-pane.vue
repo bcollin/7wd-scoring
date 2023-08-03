@@ -22,10 +22,10 @@
 	// If the result is a win in either the military or scientific
 	// track, return the player number e {1,2}.
 	function getTrackWinner() {
-		if (props.player[1].sciencetrack) { return [1, 'Science win']; }
-		if (props.player[1].militarytrack) {return [1, 'Military win']; }
-		if (props.player[2].sciencetrack) { return [2, 'Science win']; }
-		if (props.player[2].militarytrack) {return [2, 'Military win']; }
+		if (props.player[1].sciencetrack) {  return [1, 'Science win']; }
+		if (props.player[1].militarytrack) { return [1, 'Military win']; }
+		if (props.player[2].sciencetrack) {  return [2, 'Science win']; }
+		if (props.player[2].militarytrack) { return [2, 'Military win']; }
 	}
 	
 	function parseResultItem(item) {
