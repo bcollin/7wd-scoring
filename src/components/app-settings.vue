@@ -1,8 +1,9 @@
 <script setup>
 	import { ref, watch } from 'vue';
 	import settingsObj from '../services/settings.js';
+	import localStorageSvc from '../services/local-storage.js';
 	
-	watch(settingsObj.settings, function(oldVal, newVal){ settingsObj.saveSettings(); });
+	watch(settingsObj.settings, function(oldVal, newVal){ localStorageSvc.write(settingsObj.settings, 'settings'); });
 </script>
 
 <template>

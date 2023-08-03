@@ -29,7 +29,10 @@ function phraseWinners(winner, players) {
 function write(content, type) {
 	if (['scores', 'settings'].includes(type)) {
 		const contentString = JSON.stringify(toRaw(content));
-		localStorage.setItem(STORAGE.scores, contentString);
+		localStorage.setItem(STORAGE[type], contentString);
+	}
+	else {
+		console.log('Unknown setting.');
 	}
 }
 
@@ -37,6 +40,7 @@ function read(defaults, type) {
 	var contents = localStorage.getItem(STORAGE[type]);
 
 	var out = JSON.parse(contents);
+	if (out === null) { out = {}; }
 
 	if (typeof defaults === typeof out) {
 		out = mergeDefaults(out, defaults);
