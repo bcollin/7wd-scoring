@@ -1,6 +1,6 @@
 <script setup>
 import { ref, toRaw } from 'vue'
-import localStorageSvc from './local-storage.js'
+import localStorageSvc from './services/local-storage.js'
 import twoScoresRow from './components/two-scores-row.vue'
 import resultsPane from './components/results-pane.vue';
 import gamesLog from './components/games-log.vue';

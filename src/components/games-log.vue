@@ -1,6 +1,6 @@
 <script setup>
 	import { ref, toRaw } from 'vue'
-	import localStorageSvc from '../local-storage.js'
+	import localStorageSvc from '../services/local-storage.js'
 
 	const props = defineProps({
 		gamesLogItems: Array

@@ -1,7 +1,7 @@
 <script setup>
 	import { ref, toRaw } from 'vue'
 	import { getCurrentInstance } from 'vue'
-	import localStorageLib from '../local-storage.js'
+	import localStorageSvc from '../services/local-storage.js'
 
 	const props = defineProps({
 		player: Array,
@@ -32,7 +32,7 @@
 		if (typeof item !== 'object') { return ''; }
 		var out = '';
 		
-		const winningPlayer = localStorageLib.phraseWinners(item.winner, item.players);
+		const winningPlayer = localStorageSvc.phraseWinners(item.winner, item.players);
 		out = item.result + ' ' + winningPlayer + ' ';
 		
 		return out;
