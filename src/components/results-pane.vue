@@ -1,6 +1,5 @@
 <script setup>
 	import { ref, toRaw } from 'vue'
-	import { getCurrentInstance } from 'vue'
 	import localStorageSvc from '../services/local-storage.js'
 
 	const props = defineProps({
