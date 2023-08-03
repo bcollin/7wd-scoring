@@ -1,6 +1,9 @@
 <script setup>
 import { ref, toRaw } from 'vue'
+// Services.
 import localStorageSvc from './services/local-storage.js';
+import formSvc from './services/form.js';
+// Components.
 import twoScoresRow from './components/two-scores-row.vue';
 import resultsPane from './components/results-pane.vue';
 import gamesLog from './components/games-log.vue';
@@ -10,115 +13,33 @@ const now = new Date();
 const dateS = now.toISOString().substr(0,10); 
 const timeS = now.toISOString().substr(11,5);
 
+// The object 'settings' contains the user-definable settings for 
+//       the app.
 const defaultSettings = {'showExplanations': {label: 'Show explanations', value: false }};
 var settingsNew = localStorageSvc.read(defaultSettings, 'settings');
 var settings = ref(settingsNew);
 
+// The object 'scores' will contain the results of 'calling the game'.
 const defaultScores = {victoryType: 'points', validScore: false, result: '', datetime: dateS + ' ' + timeS};
 var scoresNew = localStorageSvc.mergeDefaults({}, defaultScores);
 var scores = ref(scoresNew);
 
+// The array 'player' will contain the names and the points scores 
+//       of players 1 and 2 once the game has been called.
 var player = ref([]);
 player.value[1] = {'name': '', score: 0};
 player.value[2] = {'name': '', score: 0};
 
+// The array 'gamesLogItems' contains the results of previous scores,
+//       assuming they are available in the local store.
 var gamesLogItems = ref([]);
 
-const form = [
-	{
-		fieldname: 'sciencetrack',
-		categories: ['science', 'track', 'slimfield'],
-		label: "Was this a <em>science victory</em>?",
-		info: "(You win the science track if your science cards contain 6 or more different symbols.)",
-		type: "checkbox"
-	},
-	{
-		fieldname: 'militarytrack',
-		categories: ['military', 'track', 'slimfield'],
-		label: "Was this a <em>military victory</em>?",
-		info: "(You win the military track if you have moved the pawn more than 10 positions past the center line towards the enemy.)",
-		type: "checkbox"
-	},
-	{
-		fieldname: 'culturepoints',
-		categories: ['card', 'culture', 'slimfield'],
-		label: "How many <em>culture</em> points?",
-		info: "(Count the green points on your blue cards.)",
-		type: "number"
-	},
-	{
-		fieldname: 'sciencepoints',
-		categories: ['card', 'science', 'slimfield'],
-		label: "How many <em>science</em> points?",
-		info: "(Count the green points on your green cards.)",
-		type: "number"
-	},
-	{
-		fieldname: 'commercepoints',
-		categories: ['card', 'commerce', 'slimfield'],
-		label: "How many <em>commerce</em> points?",
-		info: "(Count the green points on your yellow cards.)",
-		type: "number"
-	},
-	{
-		fieldname: 'guildpoints',
-		categories: ['card', 'guild', 'slimfield'],
-		label: "How many <em>guild</em> points?",
-		info: "(Count the green points on your purple cards.)",
-		type: "number"
-	},
-	{
-		fieldname: 'wonderpoints',
-		categories: ['wonder', 'slimfield'],
-		label: "How many <em>Wonder</em> points?",
-		info: "(Count the green points on the cards of the Wonders you built.)",
-		type: "number"
-	},
-	{
-		fieldname: 'sciencecoinpoints',
-		categories: ['coin', 'science', 'slimfield'],
-		label: "How many <em>science coin</em> points?",
-		info: "(Count the green points on the green coins.)",
-		type: "number"
-	},
-	{
-		fieldname: 'cash',
-		categories: ['cash', 'slimfield'],
-		label: "<em>How much money</em> do you have left?",
-		info: "(Count de Monet, pardon, count your money.)",
-		type: "number"
-	},
-	{
-		fieldname: 'cashpoints',
-		categories: ['coin', 'money', 'slimfield'],
-		label: "How many <em>money points</em>?",
-		info: "(Count your money, divide by three; round down to the nearest integer. Or fill out the money you have in the row above and the app will calculate the points for you.)",
-		type: "number"
-	},
-	{
-		fieldname: 'militarypoints',
-		categories: ['board', 'military', 'slimfield'],
-		label: "How many <em>military points</em>?",
-		info: "(Look at the pawn; is it in your opponent's territory? Then you get the green points shown below your pawn.)",
-		type: "number"
-	},
-	{
-		fieldname: 'total',
-		categories: [],
-		label: "Total",
-		info: "",
-		type: "markup",
-		title: "for player"
-	},
-	{
-		fieldname: 'notes',
-		categories: [''],
-		label: "Optional notes",
-		info: "",
-		type: "notes"
-	}
-];
+// The array 'form' contains information about the form fields that 
+//       need to be displayed.
+const form = formSvc.defaultForm;
 
+// The array 'validKeys' contains the keys of the form fields that
+//       are used to calculate the points score.
 const validKeys = [];
 for (var key in form) {
 	if (form[key].type === 'number') {
