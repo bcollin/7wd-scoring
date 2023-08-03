@@ -1,11 +1,11 @@
 <script setup>
 	import { ref } from 'vue';
-	import settingsObj from '../services/settings.js';
 
 	const props = defineProps({
 		item: Object,
 		player: Array,
-		scores: Object
+		scores: Object,
+		settingsObj: Object
 	})
 	
 	defineEmits(['update: player', 'update: scores']);
@@ -57,7 +57,7 @@
 
 <template>
 	<tr :class="item.categories" v-if="item.type==='number' && scores.victoryType==='points'">
-		<th><span class="label" v-html="item.label"></span> <span v-html="item.info" v-if="settingsObj.settings['showExplanations'].value" class="info"></span> </th>
+		<th><span class="label" v-html="item.label"></span> <span v-html="item.info" v-if="settingsObj['showExplanations'].value" class="info"></span> </th>
 		<td title="p1">
 			<input 
 				type="text" 
@@ -76,7 +76,7 @@
 		</td>
 	</tr>
 	<tr :class="item.categories" v-if="item.type==='checkbox'">
-		<th><span class="label" v-html="item.label"></span> <span v-html="item.info" v-if="settingsObj.settings['showExplanations'].value" class="info"></span> </th>
+		<th><span class="label" v-html="item.label"></span> <span v-html="item.info" v-if="settingsObj['showExplanations'].value" class="info"></span> </th>
 		<td title="p1">
 			<input 
 				type="checkbox" 

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, toRaw } from 'vue'
-import localStorageSvc from './services/local-storage.js'
-import twoScoresRow from './components/two-scores-row.vue'
+import localStorageSvc from './services/local-storage.js';
+import twoScoresRow from './components/two-scores-row.vue';
 import resultsPane from './components/results-pane.vue';
 import gamesLog from './components/games-log.vue';
 import appSettings from './components/app-settings.vue';
@@ -10,9 +10,13 @@ const now = new Date();
 const dateS = now.toISOString().substr(0,10); 
 const timeS = now.toISOString().substr(11,5);
 
+const defaultSettings = {'showExplanations': {label: 'Show explanations', value: false }};
+var settingsNew = localStorageSvc.read(defaultSettings, 'settings');
+var settings = ref(settingsNew);
+
 const defaultScores = {victoryType: 'points', validScore: false, result: '', datetime: dateS + ' ' + timeS};
-var scores = ref({});
-setScores();
+var scoresNew = localStorageSvc.mergeDefaults({}, defaultScores);
+var scores = ref(scoresNew);
 
 var player = ref([]);
 player.value[1] = {'name': '', score: 0};
@@ -124,10 +128,6 @@ for (var key in form) {
 	}
 }
 
-function setScores() {
-	Object.assign(scores.value, defaultScores);
-}
-
 function resetForm() {
 	var elemRoot = document.querySelector('#main');
 	var elemMsg = document.querySelector('#reload-message');
@@ -218,7 +218,7 @@ function sumIt(e) {
 				<td><input type="text" id="name_p1" v-model="player[1]['name']" aria-label="Name player 1" data-type="name"></td>
 				<td><input type="text" id="name_p2" v-model="player[2]['name']" aria-label="Name player 2" data-type="name"></td>
 			</tr>
-			<twoScoresRow v-for="fields in form" :item="fields" v-model:player="player" v-model:scores="scores"></twoScoresRow>
+			<twoScoresRow v-for="fields in form" :item="fields" v-model:player="player" :settings-obj="settings" v-model:scores="scores"></twoScoresRow>
 		</table>
 		
 		<resultsPane 
@@ -231,7 +231,7 @@ function sumIt(e) {
 		></resultsPane>
 		<gamesLog 
 			v-model:gamesLogItems="gamesLogItems" ></gamesLog>
-		<appSettings></appSettings>
+		<appSettings :settings-obj="settings"></appSettings>
 	</div> <!-- /#main -->
 	<div id="reload-message">Reloading...</div>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-	import { ref, toRaw } from 'vue'
+	import { ref } from 'vue'
 	import localStorageSvc from '../services/local-storage.js'
 
 	const props = defineProps({

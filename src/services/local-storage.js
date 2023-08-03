@@ -65,6 +65,7 @@ export default {
 	STORAGE: STORAGE,
 	phraseWinners: phraseWinners,
 	write: write,
-	read: read
+	read: read,
+	mergeDefaults: mergeDefaults
 }
 
