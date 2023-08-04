@@ -24,5 +24,5 @@
 </template>
 
 <style>
-.setting label { cursor: pointer; }
+	.setting label { cursor: pointer; }
 </style>

@@ -111,8 +111,8 @@ function sumIt(e) {
 		for (var p=1; p<3; p++) {
 			var sum = 0;
 			for (var index in validKeys) {
-				var value = String(player.value[p][validKeys[index]]);
-				var valIsNumber = value.match(/[0-9]+/);
+				const value = String(player.value[p][validKeys[index]]);
+				const valIsNumber = value.match(/[0-9]+/);
 				if (valIsNumber) {
 					sum += Number(value);
 				}

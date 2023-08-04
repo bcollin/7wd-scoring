@@ -8,7 +8,7 @@
 		gamesLogItems: Array
 	})
 
-	var loadedLog = localStorageSvc.read([], 'scores');
+	const loadedLog = localStorageSvc.read([], 'scores');
 	
 	if (loadedLog !== null) {
 		for (var key in loadedLog) {

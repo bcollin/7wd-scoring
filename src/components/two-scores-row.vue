@@ -22,7 +22,7 @@
 	
 	function forceNum(e) {
 		var value = e.target.value;
-		var pattern = /[^0-9]/g;
+		const pattern = /[^0-9]/g;
 		e.target.value = value.replaceAll(pattern, '');
 
 		if (e.target.parentElement.parentElement.classList.contains('cash')) {
@@ -34,18 +34,16 @@
 	// manually or have them calculated by filling out
 	// the coins value.
 	function setMoneyPoints(field) {
-		var pId = field.dataset.player;
-		var pString = 'p' + pId;
-		var cash = field.value;
+		const pId = field.dataset.player;
+		const cash = field.value;
 		if (cash !== '') {
-			var points = Math.floor(cash/3);
-
+			const points = Math.floor(cash/3);
 			props.player[pId].cashpoints = points;
 		}
 	}
 	
 	function emitValue(e) {
-		let value = e.target.value;
+		const value = e.target.value;
 		if (e.target.type === 'textarea') {
 			props.scores.notes = value;
 		}

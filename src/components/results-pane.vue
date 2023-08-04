@@ -14,7 +14,7 @@
 	var resultPhrase = ref('');
 	
 	function isValidScoreValue(a) {
-		var pattern = /^[0-9]+$/;
+		const pattern = /^[0-9]+$/;
 		return pattern.test(String(a));
 	}
 	
@@ -29,10 +29,9 @@
 	
 	function parseResultItem(item) {
 		if (typeof item !== 'object') { return ''; }
-		var out = '';
 		
 		const winningPlayer = localStorageSvc.phraseWinners(item.winner, item.players);
-		out = item.result + ' ' + winningPlayer + ' ';
+		const out = item.result + ' ' + winningPlayer + ' ';
 		
 		return out;
 	};
@@ -51,10 +50,10 @@
 		}
 		
 		if (props.scores.validScore) {
-			var logObj = {dt: props.scores.datetime};
+			const logObj = {dt: props.scores.datetime};
 			logObj.players = {1: props.player[1].name, 2: props.player[2].name}
 			
-			var winner = 0;
+			let winner = 0;
 			if (props.scores.victoryType === 'points') {
 				if (props.player[1].score === props.player[2].score) {
 					props.scores.result = 'Draw';
@@ -97,11 +96,11 @@
 		// To add a value: 
 		// suggestions.value.push({type: 'info', message: 'test'});
 
-		var someFieldsHaveValues = false; 
-		var maxTypes = props.validKeys.length;
+		let someFieldsHaveValues = false; 
+		const maxTypes = props.validKeys.length;
 		for (var p = 1; p<3; p++) {
 			for (var i = 0; i < maxTypes; i++) {
-				var value = props.player[p][props.validKeys[i]];
+				const value = props.player[p][props.validKeys[i]];
 				if (isValidScoreValue(value)) {
 					someFieldsHaveValues = true;
 				}
@@ -112,16 +111,15 @@
 			suggestions.value.push({type: 'warning', message: 'You seem to have filled out no points and selected no victory track.'});
 		}
 		
-		var mil1 = props.player[1].militarypoints === undefined ? 0 : Number(props.player[1].militarypoints);
-		var mil2 = props.player[2].militarypoints === undefined ? 0 : Number(props.player[2].militarypoints);
+		const mil1 = props.player[1].militarypoints === undefined ? 0 : Number(props.player[1].militarypoints);
+		const mil2 = props.player[2].militarypoints === undefined ? 0 : Number(props.player[2].militarypoints);
 		
 		if (mil1 > 0 && mil2 > 0) {
 			suggestions.value.push({'type': 'warning', 'message': 'You filled out military board points for both players, but only one player can get such points.'});
 		}
 
-		var validMilPoints = [0,2,5,10];
+		const validMilPoints = [0,2,5,10];
 		if (!validMilPoints.includes(mil1) ||!validMilPoints.includes(mil2)) {
-			console.log();
 			var errorPlayers = [];
 			if (!validMilPoints.includes(mil1)) { 
 				errorPlayers[0] = 'player 1';
