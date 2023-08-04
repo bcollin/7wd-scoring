@@ -16,7 +16,7 @@ function phraseWinners(winner, players) {
 
 	// The result was a draw. 
 	if (windex === 0) {
-		var versus = ' versus ';
+		const versus = ' versus ';
 		// Map the players object to an array.
 		var winningPlayer = players[1] + versus + players[2];
 		// If both names are missing, don't display the names.

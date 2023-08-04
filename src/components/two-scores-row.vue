@@ -101,7 +101,7 @@
 	</tr>
 	<tr :class="item.categories" v-if="item.type==='notes'">
 		<td colspan="3" id="notes-container">
-			<p>Optional notes</p>
+			<p><label for="notes">Optional notes</label></p>
 			<textarea style="width: 100%;" id="notes" maxlength="{{notesMax}}"  @keyup="limitNotesChars()" @input="emitValue"></textarea>
 			<br><span style="color: black">{{charsLeft}} characters left.</span> 
 		</td>

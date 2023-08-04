@@ -30,7 +30,7 @@ var player = ref([]);
 player.value[1] = {'name': '', score: 0};
 player.value[2] = {'name': '', score: 0};
 
-// The array 'gamesLogItems' contains the results of previous scores,
+// The array 'gamesLogItems' contains the results of previous games,
 //       assuming they are available in the local store.
 var gamesLogItems = ref([]);
 
@@ -62,9 +62,12 @@ function addLogObject(logItem) {
 	localStorageSvc.write(gamesLogItems.value, 'scores');
 }
 
-// Hide the points fields if the user chooses
-// a track victory.
-function displayVictoryType(e) {
+// 1) Sets victoryType. 2) Disables checkboxes other than the one 
+//       that was clicked.
+//       VictoryType is used in two-scores-row.vue to hide or 
+//       display certain fields, e.g. if you click a checkbox,
+//       points fields will be hidden.
+function handleCheckboxClick(e) {
 	var elem = e.target;
 	if (elem.type === 'checkbox') {
 		var pId = elem.dataset.player;
@@ -73,12 +76,14 @@ function displayVictoryType(e) {
 
 		var trackName = fieldName.substr(0,max-5);
 
+		// Sets victoryType.
 		if (elem.checked) {
 			scores.value.victoryType = trackName;
 		} else {
 			scores.value.victoryType = 'points';
 		}
 		
+		// Unchecks checkboxes other than the one that was clicked.
 		var allCheckBoxes = document.querySelectorAll('#main table .track input');
 		for (var i = 0; i < allCheckBoxes.length; i++) {
 			if (allCheckBoxes[i].dataset.player !== pId || allCheckBoxes[i].dataset.fieldname !== fieldName) {
@@ -88,6 +93,7 @@ function displayVictoryType(e) {
 	}
 }
 
+// Calculate the totals of a points victory.
 function sumIt(e) {
 	var execute = true;
 
@@ -128,7 +134,7 @@ function sumIt(e) {
 		
 		<p class="datetime">{{dateS}} - {{timeS}}</p>
 		
-		<table @keyup="sumIt" @click="displayVictoryType">
+		<table @keyup="sumIt" @click="handleCheckboxClick">
 			<tr>
 				<th>Score type</th>
 				<th>Player 1</th>
