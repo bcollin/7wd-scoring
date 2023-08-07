@@ -3,6 +3,7 @@
 
 	const props = defineProps({
 		item: Object,
+		key: Number,
 		player: Array,
 		scores: Object,
 		settingsObj: Object
@@ -54,59 +55,76 @@
 </script>
 
 <template>
-	<tr :class="item.categories" v-if="item.type==='number' && scores.victoryType==='points'">
+	<tr 
+		:class="item.categories" 
+		v-if="item.type==='number' && scores.victoryType==='points'" >
 		<th><span class="label" v-html="item.label"></span> <span v-html="item.info" v-if="settingsObj['showExplanations'].value" class="info"></span> </th>
 		<td title="p1">
 			<input 
 				type="text" 
-				@keyup="forceNum" 
 				:value="player[1][props.item.fieldname]" 
+				data-player="1" 
 				@input="emitValue"
-				data-player="1"> 
+				@keyup="forceNum" 
+				> 
 		</td>
 		<td title="p2">
 			<input 
 				type="text" 
-				@keyup="forceNum" 
 				:value="player[2][props.item.fieldname]" 
+				data-player="2" 
+				@keyup="forceNum" 
 				@input="emitValue"
-				data-player="2"> 
+				> 
 		</td>
 	</tr>
-	<tr :class="item.categories" v-if="item.type==='checkbox'">
+	<tr 
+		:class="item.categories" 
+		v-if="item.type==='checkbox'" >
 		<th><span class="label" v-html="item.label"></span> <span v-html="item.info" v-if="settingsObj['showExplanations'].value" class="info"></span> </th>
 		<td title="p1">
 			<input 
 				type="checkbox" 
 				:value="player[1][props.item.fieldname]" 
-				@input="emitValue"
+				:data-fieldname="item.fieldname"
 				data-player="1"
-				:data-fieldname="item.fieldname">
+				@input="emitValue"
+				>
 		</td>
 		<td title="p2">
 			<input 
 				type="checkbox" 
 				:value="player[2][props.item.fieldname]" 
-				@input="emitValue"
+				:data-fieldname="item.fieldname" 
 				data-player="2"
-				:data-fieldname="item.fieldname"> 
+				@input="emitValue"
+				> 
 		</td>
 	</tr>
-	<tr :class="item.categories" v-if="item.type==='markup' && scores.victoryType==='points'">
+	<tr 
+		:class="item.categories" 
+		v-if="item.type==='markup' && scores.victoryType==='points'" >
 		<th>Total</th>
 		<td title="p1">{{player[1].score}} points</td>
 		<td title="p2">{{player[2].score}} points</td>
 	</tr>
-	<tr :class="item.categories" v-if="item.type==='notes'">
+	<tr 
+		:class="item.categories" 
+		v-if="item.type==='notes'" >
 		<td colspan="3" id="notes-container">
-			<p><label for="notes">Optional notes</label></p>
-			<textarea style="width: 100%;" id="notes" maxlength="{{notesMax}}"  @keyup="limitNotesChars()" @input="emitValue"></textarea>
+			<label for="notes">Optional notes</label><br/>
+			<textarea 
+				id="notes" 
+				maxlength="{{notesMax}}"  
+				@keyup="limitNotesChars()" 
+				@input="emitValue"
+				></textarea>
 			<br><span style="color: black">{{charsLeft}} characters left.</span> 
 		</td>
 	</tr>
 </template>
 
-<style>
+<style scoped>
 	.info { font-size: .875em; }
 	#notes-container:nth-child(2)::before { content: ""; }
 	tr.science { background: #efe; }
@@ -123,8 +141,9 @@
 	tr.commerce th em { color: #660; }
 	tr.guild th em { color: #606; }
 	tr.track td { text-align: center; }
-
-	input[type="text"] { width: 8em; }
+	
+	#notes-container label { font-weight: bold; }
+	#notes { width: 95%; }
 
 	@media (min-width: 533px) {
 		th .label { display: inline; }
@@ -132,8 +151,6 @@
 		tr.track th, tr.track td { border: none; }
 		tr.slimfield th:first-child { position: relative; }
 		.label em { font-weight: bold; }
-		
-		input[type="text"] { width: 4em; }
 	}
 </style>
 

@@ -4,10 +4,10 @@ import { ref, toRaw } from 'vue'
 import localStorageSvc from './services/local-storage.js';
 import formSvc from './services/form.js';
 // Components.
-import twoScoresRow from './components/two-scores-row.vue';
-import resultsPane from './components/results-pane.vue';
-import gamesLog from './components/games-log.vue';
-import appSettings from './components/app-settings.vue';
+import TwoScoresRow from './components/two-scores-row.vue';
+import ResultsPane from './components/results-pane.vue';
+import GamesLog from './components/games-log.vue';
+import AppSettings from './components/app-settings.vue';
 
 const now = new Date();
 const dateS = now.toISOString().substr(0,10); 
@@ -142,23 +142,29 @@ function sumIt(e) {
 			</tr>				
 			<tr>
 				<th>Player names </th> 
-				<td><input type="text" id="name_p1" v-model="player[1]['name']" aria-label="Name player 1" data-type="name"></td>
-				<td><input type="text" id="name_p2" v-model="player[2]['name']" aria-label="Name player 2" data-type="name"></td>
+				<td><input id="name_p1" v-model="player[1]['name']" type="text" aria-label="Name player 1" data-type="name"></td>
+				<td><input id="name_p2" v-model="player[2]['name']" type="text" aria-label="Name player 2" data-type="name"></td>
 			</tr>
-			<twoScoresRow v-for="fields in form" :item="fields" v-model:player="player" :settings-obj="settings" v-model:scores="scores"></twoScoresRow>
+			<TwoScoresRow 
+				v-for="(field, key) in form" 
+				:player="player" 
+				:scores="scores"
+				:item="field" 
+				:key="key" 
+				:settings-obj="settings" ></twoScoresRow>
 		</table>
 		
-		<resultsPane 
-			v-model:player="player" 
-			v-model:scores="scores" 
-			v-model:validKeys="validKeys" 
+		<ResultsPane 
+			:player="player" 
+			:scores="scores" 
+			:validKeys="validKeys" 
 			@resetform='resetForm' 
 			@logobjectcreated="addLogObject" 
-			@sumit="sumIt"
-		></resultsPane>
-		<gamesLog 
-			v-model:gamesLogItems="gamesLogItems" ></gamesLog>
-		<appSettings :settings-obj="settings"></appSettings>
+			@sumit="sumIt" ></ResultsPane>
+		<GamesLog 
+			:gamesLogItems="gamesLogItems" ></GamesLog>
+		<AppSettings 
+			:settings-obj="settings" ></AppSettings>
 	</div> <!-- /#main -->
 	<div id="reload-message">Reloading...</div>
 </template>
@@ -176,11 +182,15 @@ function sumIt(e) {
 	tr.track { border: 4px solid #ff0;}
 	td, th { display: block; margin: 0px; padding: .5em; line-height: 1.2; }
 	th { text-align: left; font-weight: bold; }
+	td { text-align: center; }
 	tr:first-child th { display: none; }
 	td:nth-child(2)::before { content: "player 1: "; }
 	td:nth-child(3)::before { content: "player 2: "; }
 	tr th:first-child { text-align: left; }
 	tr:first-child th:first-child { text-align: left; }
+
+	input[type="text"] { width: 8em; }
+
 	#reload-message { display: none; position: absolute; top: 0em; left: 0em; max-width: 32em; padding: 5em; background: #fff; font-weight: bold; }
 	#reload-message.reloading { display: block; }
 
@@ -203,5 +213,7 @@ function sumIt(e) {
 		tr:first-child th:first-child { text-align: center; }
 		td:nth-child(2)::before { content: ""; }
 		td:nth-child(3)::before { content: ""; }
+		
+		input[type="text"] { width: 4em; }
 	}
 </style>

@@ -111,8 +111,8 @@
 			suggestions.value.push({type: 'warning', message: 'You seem to have filled out no points and selected no victory track.'});
 		}
 		
-		const mil1 = props.player[1].militarypoints === undefined ? 0 : Number(props.player[1].militarypoints);
-		const mil2 = props.player[2].militarypoints === undefined ? 0 : Number(props.player[2].militarypoints);
+		const mil1 = (props.player[1].militarypoints === undefined) ? 0 : Number(props.player[1].militarypoints);
+		const mil2 = (props.player[2].militarypoints === undefined) ? 0 : Number(props.player[2].militarypoints);
 		
 		if (mil1 > 0 && mil2 > 0) {
 			suggestions.value.push({'type': 'warning', 'message': 'You filled out military board points for both players, but only one player can get such points.'});
@@ -136,37 +136,58 @@
 <template>
 	<div id="results"> 
 		<div> 
-			<p class="center" v-if="scores.result === '' && suggestions.length === 0">
+			<p 
+				class="center" 
+				v-if="scores.result === '' && suggestions.length === 0" >
+
 				<button class="cta" @click="callIt">Call it</button>
+
 			</p>
 			
-			<div id="suggestions" v-if="suggestions.length > 0 && scores.result === ''">
+			<div 
+				id="suggestions" 
+				v-if="suggestions.length > 0 && scores.result === ''" >
+
 				<h2>Are you sure?</h2>
 
-				<ul v-for="item in suggestions">
+				<ul 
+					v-for="item in suggestions" >
+					
 					<li class="{{item.type}}">{{item.message}}</li>
+					
 				</ul>
 
 				<p>You may have made mistakes in your scoring. Please check the form and then click one of the buttons below.</p>
 
 				<p class="buttons center">
+					
 					<button @click="suggestions.value = []; scores.validScore = true; callIt();">I am sure, call it</button> 
 
 					<button class="cta" @click="callIt();">Check again</button>
+					
 				</p>
 			</div>
 
-			<div id="result" v-if="scores.result !== ''">
+			<div 
+				id="result" 
+				v-if="scores.result !== ''" >
+			
 				<em>{{resultPhrase}}</em>
+			
 			</div>
 		</div> <!-- /#results -->
-		<p class="center" v-if="scores.result !== ''">
+		
+		<p 
+			class="center" 
+			v-if="scores.result !== ''" >
+		
 			<button class="de-emphasize" @click="$emit('resetform')"><span>Reset form</span></button>
+		
 		</p>
 	</div>
 </template>
 
-<style>
+<style scoped>
 	#results button { 
 		width: 95%; 
 		max-width: 11em; 

@@ -39,8 +39,10 @@
 </script>
 
 <template>
-		<p v-if="gamesLogItems.length > 1"><button @click="exportGamesLog()">Export games log</button></p>
+		<p 
+			v-if="gamesLogItems.length > 1" >
+			
+			<button @click="exportGamesLog()">Export games log</button>
+		
+		</p>
 </template>
-
-<style>
-</style>
