@@ -14,6 +14,12 @@
     const notesMax = 200;
 	var charsLeft = ref(notesMax);
 	
+	if (props.item.type === 'checkbox') {
+		var max = props.item.fieldname.length - 5;
+		var winType = props.item.fieldname.substr(0, max);
+		props.item.buttonLabel = winType + ' win';
+	}
+	
 	function limitNotesChars() {
 		charsLeft.value = notesMax - notes.value.length;
 		if (charsLeft.value < 0) {
@@ -43,13 +49,22 @@
 		}
 	}
 	
+	function toggleCheckOverlay(e) {
+		e.target.parentElement.parentElement.children[0].click();
+	}
+	
 	function emitValue(e) {
 		const value = e.target.value;
 		if (e.target.type === 'textarea') {
 			props.scores.notes = value;
 		}
 		else {
-			props.player[e.target.dataset.player][props.item.fieldname] = value;
+			if (e.target.type === 'checkbox') {
+				props.player[e.target.dataset.player][props.item.fieldname] = e.target.checked;
+			}
+			else {
+				props.player[e.target.dataset.player][props.item.fieldname] = value;
+			}
 		}
 	}
 </script>
@@ -82,23 +97,31 @@
 		:class="item.categories" 
 		v-if="item.type==='checkbox'" >
 		<th><span class="label" v-html="item.label"></span> <span v-html="item.info" v-if="settingsObj['showExplanations'].value" class="info"></span> </th>
-		<td title="p1">
+		<td title="p1" :class="{'checked': player[1][item.fieldname]}">
 			<input 
 				type="checkbox" 
-				:value="player[1][props.item.fieldname]" 
 				:data-fieldname="item.fieldname"
 				data-player="1"
 				@input="emitValue"
 				>
+			<div class="overlay-container">
+				<div class="overlay" @click="toggleCheckOverlay">
+					{{item.buttonLabel}} player 1
+				</div>
+			</div>
 		</td>
-		<td title="p2">
+		<td title="p2" :class="{'checked': player[2][item.fieldname] }">
 			<input 
 				type="checkbox" 
-				:value="player[2][props.item.fieldname]" 
 				:data-fieldname="item.fieldname" 
 				data-player="2"
 				@input="emitValue"
 				> 
+			<div class="overlay-container">
+				<div class="overlay" @click="toggleCheckOverlay">
+					{{item.buttonLabel}} player 2
+				</div>
+			</div>
 		</td>
 	</tr>
 	<tr 
@@ -141,6 +164,37 @@
 	tr.commerce th em { color: #660; }
 	tr.guild th em { color: #606; }
 	tr.track td { text-align: center; }
+	
+	.overlay-container { 
+		display: inline-block;
+		padding: 2px; 
+		border-radius: 7px; 
+		background: #090; 
+	}
+	.military .overlay-container { background: #900; }
+	
+	.overlay {
+		width: 4em;
+		height: 4em;
+		padding: .5em; 
+		background: #050;
+		color: #fd9;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+	
+	.military .overlay {
+		background: #500;
+	}
+	
+	.checked .overlay {
+		box-shadow: inset 3px 3px 2px 2px rgba(0,0,0,.5);
+		background: #090;
+		color: #fea;
+	}
+	.military .checked .overlay {
+		background: #900; 
+	}
 	
 	#notes-container label { font-weight: bold; }
 	#notes { width: 95%; }

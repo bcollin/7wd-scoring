@@ -86,8 +86,11 @@ function handleCheckboxClick(e) {
 		// Unchecks checkboxes other than the one that was clicked.
 		var allCheckBoxes = document.querySelectorAll('#main table .track input');
 		for (var i = 0; i < allCheckBoxes.length; i++) {
-			if (allCheckBoxes[i].dataset.player !== pId || allCheckBoxes[i].dataset.fieldname !== fieldName) {
+			var thisP = allCheckBoxes[i].dataset.player;
+			var thisFn = allCheckBoxes[i].dataset.fieldname;
+			if (thisP !== pId || thisFn !== fieldName) {
 				allCheckBoxes[i].checked = false;
+				player.value[thisP][thisFn] = false;
 			}
 		}
 	}
@@ -178,14 +181,17 @@ function sumIt(e) {
 	.datetime { text-align: center; }
 	table { display: block; margin-bottom: 1.5em; }
 	tbody { display: block; }
-	tr { display: block; margin-bottom: .75em; }
+	tr { display: block; margin-bottom: .75em; text-align: center; }
 	tr.track { border: 4px solid #ff0;}
-	td, th { display: block; margin: 0px; padding: .5em; line-height: 1.2; }
+	td, th { display: inline-block; margin: 0px; padding: .5em; line-height: 1.2; }
 	th { text-align: left; font-weight: bold; }
 	td { text-align: center; }
 	tr:first-child th { display: none; }
 	td:nth-child(2)::before { content: "player 1: "; }
 	td:nth-child(3)::before { content: "player 2: "; }
+	tr.track td input { display: none; }
+	tr.track td:nth-child(2)::before { content: ""; }
+	tr.track td:nth-child(3)::before { content: ""; }
 	tr th:first-child { text-align: left; }
 	tr:first-child th:first-child { text-align: left; }
 
