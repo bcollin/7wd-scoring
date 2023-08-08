@@ -10,16 +10,20 @@ I wrote it to teach myself the basics of web front-end framework Vue.
 
 This app aims to be a replacement for that notepad. 
 
+I developed this app to teach myself a little Vue.js, I currently have no intention to actually use it myself.
+
 ## Usage
 
-Either: 
+In order to run this app, you need to build it first. In your node.js environment: `npm run build`.
+
+Then, either: 
 
 * Run this app as a website (e.g. on https://example.com/7wd-scoring).
 * Run this app as a mobile app by visiting a site with the app on it, then clicking the install button of your mobile browser.
 
 Some browsers display a button that will let you install the app, others will have a menu. 
 
-This is a progressive web app, which means that it is installable.
+The build process generates a progressive web app (PWA), which means that it is installable.
 
 Once you have installed the app you can run it by clicking its icon.
 
@@ -33,11 +37,11 @@ Fill out the fields, then click Call It to calculate your score.
 
 ## Future features
 
-Some added functionality that I plan to include, unless I get bored: 
+Some functionality that I might add: 
 
-* Simple checks (e.g. do the military board scores contain values other than 0, 2, 5 or 10.
-* A log of previously entered scores.
-* Export functions for this log.
+* JSON export of the full games log.
+* Run a build off of Github pages?
+
 
 ## Development
 
