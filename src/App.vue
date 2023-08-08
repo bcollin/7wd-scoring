@@ -214,6 +214,8 @@ function sumIt(e) {
 		td:nth-child(2)::before { content: ""; }
 		td:nth-child(3)::before { content: ""; }
 		
+		.label em { font-weight: bold; }
+
 		input[type="text"] { width: 4em; }
 	}
 </style>
