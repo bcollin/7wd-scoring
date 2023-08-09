@@ -9,7 +9,7 @@
 		settingsObj: Object
 	})
 	
-	defineEmits(['update: player', 'update: scores']);
+	const emit = defineEmits(['update: player', 'update: scores', 'handle-all-checkboxes']);
 
     const notesMax = 200;
 	var charsLeft = ref(notesMax);
@@ -68,6 +68,7 @@
 		else {
 			if (e.target.type === 'checkbox') {
 				props.player[e.target.dataset.player][props.item.fieldname] = e.target.checked;
+				emit('handle-all-checkboxes', e);
 			}
 			else {
 				// Implied: number field. 

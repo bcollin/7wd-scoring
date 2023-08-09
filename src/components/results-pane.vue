@@ -21,6 +21,7 @@
 	
 	// Strips '<' and '>' from a string.
 	function stripLtGt(value) {
+		if (value === undefined) { value = ''; }
 		const pattern = /[<>]/g;
 		return value.replaceAll(pattern, '');
 	}

@@ -72,29 +72,27 @@ function addLogObject(logItem) {
 //       points fields will be hidden.
 function handleCheckboxClick(e) {
 	var elem = e.target;
-	if (elem.type === 'checkbox') {
-		var pId = elem.dataset.player;
-		var fieldName = elem.dataset.fieldname;
-		var max = fieldName.length;
+	var pId = elem.dataset.player;
+	var fieldName = elem.dataset.fieldname;
+	var max = fieldName.length;
 
-		var trackName = fieldName.substr(0,max-5);
+	var trackName = fieldName.substr(0, max - 5);
 
-		// Sets victoryType.
-		if (elem.checked) {
-			scores.value.victoryType = trackName;
-		} else {
-			scores.value.victoryType = 'points';
-		}
-		
-		// Unchecks checkboxes other than the one that was clicked.
-		var allCheckBoxes = document.querySelectorAll('#main table .track input');
-		for (var i = 0; i < allCheckBoxes.length; i++) {
-			var thisP = allCheckBoxes[i].dataset.player;
-			var thisFn = allCheckBoxes[i].dataset.fieldname;
-			if (thisP !== pId || thisFn !== fieldName) {
-				allCheckBoxes[i].checked = false;
-				player.value[thisP][thisFn] = false;
-			}
+	// Sets victoryType.
+	if (elem.checked) {
+		scores.value.victoryType = trackName;
+	} else {
+		scores.value.victoryType = 'points';
+	}
+	
+	// Unchecks checkboxes other than the one that was clicked.
+	var allCheckBoxes = document.querySelectorAll('#main table .track input');
+	for (var i = 0; i < allCheckBoxes.length; i++) {
+		var thisP = allCheckBoxes[i].dataset.player;
+		var thisFn = allCheckBoxes[i].dataset.fieldname;
+		if (thisP !== pId || thisFn !== fieldName) {
+			allCheckBoxes[i].checked = false;
+			player.value[thisP][thisFn] = false;
 		}
 	}
 }
@@ -142,7 +140,7 @@ function sumIt(e) {
 		
 		<p class="datetime">{{dateS}} - {{timeS}}</p>
 		
-		<table @keyup="sumIt" @click="handleCheckboxClick">
+		<table @keyup="sumIt">
 			<tr>
 				<th>Score type</th>
 				<th>Player 1</th>
@@ -175,7 +173,9 @@ function sumIt(e) {
 				:scores="scores"
 				:item="field" 
 				:key="key" 
-				:settings-obj="settings" ></twoScoresRow>
+				:settings-obj="settings"
+				@handle-all-checkboxes="handleCheckboxClick"
+				></twoScoresRow>
 		</table>
 		
 		<ResultsPane 
