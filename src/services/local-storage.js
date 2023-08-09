@@ -50,7 +50,9 @@ function read(defaults, type) {
 }
 
 function mergeDefaults(inSet, defaultSet) {
-	var clone = structuredClone(defaultSet);
+	// var clone = structuredClone(defaultSet);
+	var clone = simpleClone(defaultSet);
+
 	var outSet = inSet;
 	for (var key in clone) {
 		if (outSet[key] === undefined) {
@@ -59,6 +61,13 @@ function mergeDefaults(inSet, defaultSet) {
 	}
 	
 	return outSet;
+}
+
+// Make a deep, non-reference clone of an object.
+function simpleClone(inObj) {
+	var objString = JSON.stringify(inObj);
+	
+	return JSON.parse(objString);
 }
 
 export default {
