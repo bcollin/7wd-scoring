@@ -15,12 +15,13 @@
 	<div id="settings">
 		<h2>Settings</h2>
 		
-		<div 
-			class="settings" 
-			v-for="(value, key) in settingsObj" >
+		<div class="settings" >
 
-			<div class="setting">
-				<label><input type="checkbox" v-model="settingsObj[key].value">  {{value.label}}</label>
+			<div 
+				v-for="(value, key) in settingsObj" 
+				class="setting"
+			>
+				<label><input type="checkbox" v-model="settingsObj[key].value"><span class="button"></span> <span class="text">{{value.label}}</span></label>
 			</div>
 
 		</div> <!-- /.settings -->
@@ -28,5 +29,41 @@
 </template>
 
 <style scoped>
-	.setting label { cursor: pointer; }
+	.setting label { 
+		cursor: pointer; 
+	}
+	
+	.setting label > * { 
+		vertical-align: middle;
+	}
+	
+	.setting input[type="checkbox"] { display: none; }
+
+	.setting .button { 
+		display: inline-block;
+		border: 1px solid #999;
+		position: relative;
+		width: 2.5em; 
+		height: 1.25em; 
+		border-radius: 1em; 
+		background: #ccc; 
+	}
+	
+	.setting .button::after {
+		content: '';
+		position: absolute;
+		top: .1em;
+		left: .1em;
+		width: 1em;
+		height: 1em;
+		background: #fff;
+		border-radius: 2em;
+		transition: 0.15s;
+	}
+
+	input:checked + .button { background: #3c3; }
+
+	.setting input:checked + .button::after {
+		left: calc(100% - 1.15em);
+	}
 </style>
