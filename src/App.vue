@@ -178,7 +178,7 @@ function sumIt(e) {
 	#main { max-width: 100%; }
 	#main.reloading { opacity: 0; transition: opacity 1s; }
 	h1 { font-size: 1.6em; text-align: center; }
-	.datetime { text-align: center; }
+	.datetime { text-align: center; font-size: 1.2em; }
 	table { display: block; margin-bottom: 1.5em; }
 	tbody { display: block; }
 	tr { display: block; margin-bottom: .75em; text-align: center; }
