@@ -13,18 +13,21 @@
 	var suggestions = ref([]);
 	var resultPhrase = ref('');
 	
+	// Checks if a value is addable, i.e. numeric.
 	function isValidScoreValue(a) {
 		const pattern = /^[0-9]+$/;
 		return pattern.test(String(a));
 	}
 	
+	// Strips '<' and '>' from a string.
 	function stripLtGt(value) {
 		const pattern = /[<>]/g;
 		return value.replaceAll(pattern, '');
 	}
 	
 	// If the result is a win in either the military or scientific
-	// track, return the player number e {1,2}.
+	// track, return the player number e {1,2} and a results string,
+	// e.g. 'Science win'.
 	function getTrackWinner() {
 		if (props.player[1].sciencetrack === true) {  return [1, 'Science win']; }
 		if (props.player[1].militarytrack === true) { return [1, 'Military win']; }
@@ -32,6 +35,8 @@
 		if (props.player[2].militarytrack === true) { return [2, 'Military win']; }
 	}
 	
+	// Builds a results phrase of the type 
+	// VICTORY_TYPE PLAYER_NAME ['versus' PLAYER_NAME].
 	function parseResultItem(item) {
 		if (typeof item !== 'object') { return ''; }
 		
@@ -41,7 +46,12 @@
 		return out;
 	};
 
+	// If scores.validScore is true, creates a log object and 
+	// triggers an event for storing the update games log.
 	function callIt(e) {
+	
+		// Scores.validScore should always be true when an alternate
+		// victory track has been selected.
 		if (props.scores.victoryType !== 'points') {
 			props.scores.validScore = true;
 		}
@@ -50,10 +60,14 @@
 			checkResults();
 		}
 
+		// If there are no suggestions for improvement of the 
+		// entered scores (e.g. military board can only 
+		// produce certain points values), the score is valid.
 		if (suggestions.value.length === 0) {
 			props.scores.validScore = true;
 		}
 		
+		// Build the log object.
 		if (props.scores.validScore) {
 			const logObj = {dt: props.scores.datetime};
 			logObj.players = {
@@ -94,8 +108,13 @@
 		}
 	}
 	
+	// This is a lint for points values. 
+	//
+	// I am not testing everything I could test, because
+	// players might be using their own rule sets, and
+	// showing an "Are you sure?" type message would get
+	// tiresome soon in such cases.
 	function checkResults() {
-	
 		// One last summing? Is this even necessary?
 		emit('sumit');
 		

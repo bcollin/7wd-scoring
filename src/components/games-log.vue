@@ -18,10 +18,12 @@
 	
 	var maxItems = ref(6);
 	
+	// Reverse the order of the list and show maxItems items.
 	const sortedItemList = computed(() => { 
 		return props.gamesLogItems.reverse().slice(0, maxItems.value);
 	});
 	
+	// Increase the value of maxItems by 6.
 	function upMaxItems() {
 		maxItems.value += 6;
 		if (maxItems.value > props.gamesLogItems.length) {

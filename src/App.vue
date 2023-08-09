@@ -49,6 +49,7 @@ for (var key in form) {
 	}
 }
 
+// Crude way of readying the form for the entry of the next game.
 function resetForm() {
 	var elemRoot = document.querySelector('#main');
 	var elemMsg = document.querySelector('#reload-message');
@@ -57,6 +58,8 @@ function resetForm() {
 	location.reload();
 }
 
+// Adds the log object for the current game, once called, to the 
+// local storage for future retrieval.
 function addLogObject(logItem) {
 	gamesLogItems.value.push(logItem);
 	localStorageSvc.write(gamesLogItems.value, 'scores');
@@ -96,7 +99,9 @@ function handleCheckboxClick(e) {
 	}
 }
 
-// Calculate the totals of a points victory.
+// Calculate the totals of a points victory. This function is run on
+// key-up, but ignores key presses in the player names fields and the
+// notes field.
 function sumIt(e) {
 	var execute = true;
 
@@ -115,14 +120,14 @@ function sumIt(e) {
 			var sum = 0;
 			for (var index in validKeys) {
 				const value = String(player.value[p][validKeys[index]]);
-				const valIsNumber = value.match(/[0-9]+/);
+				const valIsNumber = value.match(/^[0-9]+$/);
 				if (valIsNumber) {
 					sum += Number(value);
 				}
 				else {
 					// I could force to 0, but if the user made a typo,
 					// it might be more visible if the field is cleared.
-					player.value[p][validKeys[index]] = '';
+					// player.value[p][validKeys[index]] = '';
 				}
 			}
 			player.value[p]['score'] = sum;

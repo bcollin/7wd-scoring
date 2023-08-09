@@ -20,13 +20,17 @@
 		props.item.buttonLabel = winType + ' win';
 	}
 	
+	// Automatically limits the number of characters in the 'notes'
+	// field to notesMax.
 	function limitNotesChars() {
 		charsLeft.value = notesMax - notes.value.length;
 		if (charsLeft.value < 0) {
 			notes.value = notes.value.substr(0, notesMax);
 		}
 	}
-		
+	
+	// Makes sure only numbers are entered in number fields. 
+	// Triggers a re-calculation of money points if necessary.
 	function forceNum(e) {
 		var value = e.target.value;
 		const pattern = /[^0-9]/g;
@@ -49,21 +53,26 @@
 		}
 	}
 	
+	// Clicks the actual (hidden) checkboxes for alternate victory 
+	// tracks.
 	function toggleCheckOverlay(e) {
 		e.target.parentElement.parentElement.children[0].click();
 	}
 	
+	// Processes field value changes, including validation.
 	function emitValue(e) {
-		const value = e.target.value;
 		if (e.target.type === 'textarea') {
-			props.scores.notes = value;
+			limitNotesChars();
+			props.scores.notes = e.target.value;
 		}
 		else {
 			if (e.target.type === 'checkbox') {
 				props.player[e.target.dataset.player][props.item.fieldname] = e.target.checked;
 			}
 			else {
-				props.player[e.target.dataset.player][props.item.fieldname] = value;
+				// Implied: number field. 
+				forceNum(e);
+				props.player[e.target.dataset.player][props.item.fieldname] = e.target.value;
 			}
 		}
 	}
@@ -78,17 +87,17 @@
 			<input 
 				type="text" 
 				:value="player[1][props.item.fieldname]" 
+				:data-fieldname="item.fieldname"
 				data-player="1" 
 				@input="emitValue"
-				@keyup="forceNum" 
 				> 
 		</td>
 		<td title="p2">
 			<input 
 				type="text" 
 				:value="player[2][props.item.fieldname]" 
+				:data-fieldname="item.fieldname"
 				data-player="2" 
-				@keyup="forceNum" 
 				@input="emitValue"
 				> 
 		</td>
@@ -138,8 +147,7 @@
 			<label for="notes">Optional notes</label><br/>
 			<textarea 
 				id="notes" 
-				maxlength="{{notesMax}}"  
-				@keyup="limitNotesChars()" 
+				maxlength="{{notesMax}}"
 				@input="emitValue"
 				></textarea>
 			<br><span style="color: black">{{charsLeft}} characters left.</span> 

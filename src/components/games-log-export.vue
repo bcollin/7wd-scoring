@@ -5,6 +5,7 @@
 		gamesLogItems: Array
 	})
 
+	// Overwrites the current games log in local storage.
 	function exportGamesLog(format) {
 		console.log('exporting ...');
 		if (format === undefined) {
@@ -26,6 +27,8 @@
 		saveData(logString, '7wonder-duel-results-' + dateString + '.txt');
 	}
 	
+	// Presents a way to download data as a text file by adding, 
+	// then clicking an invisible 'a' element.
 	function saveData(data, fileName) {
 		const a = document.createElement('a');
 		const blob = new Blob([data], {type: "octet/stream"});

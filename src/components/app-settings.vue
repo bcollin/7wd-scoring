@@ -6,6 +6,7 @@
 		settingsObj: Object
 	})
 
+	// Writes a setting to local storage if it has been changed.
 	watch(props.settingsObj, function(oldVal, newVal){ 
 		localStorageSvc.write(props.settingsObj, 'settings'); 
 	});
