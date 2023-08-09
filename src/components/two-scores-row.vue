@@ -177,7 +177,7 @@
 		height: 4em;
 		padding: .5em; 
 		background: #050;
-		color: #fd9;
+		color: #fea;
 		border-radius: 5px;
 		cursor: pointer;
 	}
@@ -189,7 +189,7 @@
 	.checked .overlay {
 		box-shadow: inset 3px 3px 2px 2px rgba(0,0,0,.5);
 		background: #090;
-		color: #fea;
+		color: #fd9;
 	}
 	.military .checked .overlay {
 		background: #900; 
