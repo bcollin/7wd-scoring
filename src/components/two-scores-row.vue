@@ -26,7 +26,7 @@
 			notes.value = notes.value.substr(0, notesMax);
 		}
 	}
-	
+		
 	function forceNum(e) {
 		var value = e.target.value;
 		const pattern = /[^0-9]/g;

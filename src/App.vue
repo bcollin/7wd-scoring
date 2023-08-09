@@ -145,8 +145,24 @@ function sumIt(e) {
 			</tr>				
 			<tr>
 				<th>Player names </th> 
-				<td><input id="name_p1" v-model="player[1]['name']" type="text" aria-label="Name player 1" data-type="name"></td>
-				<td><input id="name_p2" v-model="player[2]['name']" type="text" aria-label="Name player 2" data-type="name"></td>
+				<td>
+					<input 
+						id="name_p1" 
+						v-model="player[1]['name']" 
+						type="text" 
+						aria-label="Name player 1" 
+						data-type="name"
+					>
+				</td>
+				<td>
+					<input 
+						id="name_p2" 
+						v-model="player[2]['name']" 
+						type="text" 
+						aria-label="Name player 2" 
+						data-type="name"
+					>
+				</td>
 			</tr>
 			<TwoScoresRow 
 				v-for="(field, key) in form" 

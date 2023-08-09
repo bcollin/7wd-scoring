@@ -18,6 +18,11 @@
 		return pattern.test(String(a));
 	}
 	
+	function stripLtGt(value) {
+		const pattern = /[<>]/g;
+		return value.replaceAll(pattern, '');
+	}
+	
 	// If the result is a win in either the military or scientific
 	// track, return the player number e {1,2}.
 	function getTrackWinner() {
@@ -51,7 +56,10 @@
 		
 		if (props.scores.validScore) {
 			const logObj = {dt: props.scores.datetime};
-			logObj.players = {1: props.player[1].name, 2: props.player[2].name}
+			logObj.players = {
+				1: stripLtGt(props.player[1].name), 
+				2: stripLtGt(props.player[2].name)
+			};
 			
 			let winner = 0;
 			if (props.scores.victoryType === 'points') {
@@ -76,7 +84,7 @@
 			
 			logObj.result = props.scores.result;
 			logObj.winner = winner;
-			logObj.notes = props.scores.notes;
+			logObj.notes = stripLtGt(props.scores.notes);
 			logObj.player1 = toRaw(props.player[1]);
 			logObj.player2 = toRaw(props.player[2]);
 			
