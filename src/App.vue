@@ -200,6 +200,15 @@ function sumIt(e) {
 	#reload-message { display: none; position: absolute; top: 0em; left: 0em; max-width: 32em; padding: 5em; background: #fff; font-weight: bold; }
 	#reload-message.reloading { display: block; }
 
+	.center { text-align: center; }
+	
+	#gameslog, 
+	#results, 
+	#settings
+	{
+		margin-bottom: 3em;
+	}
+
 	@media (min-width: 321px) {
 		table { max-width: 360px; }
 	}

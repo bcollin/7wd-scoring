@@ -40,9 +40,18 @@
 
 <template>
 		<p 
-			v-if="gamesLogItems.length > 1" >
+			v-if="gamesLogItems.length > 1" 
+			class="center"
+			>
 			
-			<button @click="exportGamesLog()">Export games log</button>
+			<button class="games-log-export-button" @click="exportGamesLog()">Export games log</button>
 		
 		</p>
 </template>
+
+<style scoped>
+	.games-log-export-button {
+		padding: 1em;
+		border-radius: 1em;
+	}
+</style>

@@ -224,6 +224,4 @@
 		font-weight: bold; 
 		font-style: normal; 
 	}
-	
-	.center { text-align: center; }
 </style>

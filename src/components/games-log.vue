@@ -37,18 +37,52 @@
 		
 		<h2>Games log</h2>
 		
-		<!-- double slice: the first one to get a shallow copy. -->
-		<ul 
-			v-for="item in sortedItemList" >
-			<li>{{gamesLogSvc.parseDisplayLogItem(item)}}</li>
-		</ul>
-		
-		<p 
-			v-if="maxItems < gamesLogItems.length" >
-			<button @click="upMaxItems">Show more</button>
-		</p>
+		<div class="games-log-wrapper">
+			<ul class="games-log">
+				<li 
+					v-for="item in sortedItemList" 
+					>{{gamesLogSvc.parseDisplayLogItem(item)}}</li>
+			</ul>
+			
+			<p 
+				v-if="maxItems < gamesLogItems.length" 
+				class="show-more"
+				>
+				<button @click="upMaxItems">Show more</button>
+			</p>
+		</div>
 		
 		<GamesLogExport 
 			:games-log-items="gamesLogItems" ></GamesLogExport>
 	</div>
 </template>
+
+<style scoped>
+	.games-log-wrapper {
+		margin-bottom: 1.5em;
+	}
+
+	ul.games-log, ul.games-log li { margin: 0px; padding: 0px; }
+	
+	ul.games-log li {
+		padding-bottom: .2em;
+		margin-bottom: .2em;
+		border-bottom: 2px solid #def;
+	}
+	
+	ul.games-log li:last-child {
+		border: none;
+	}
+	
+	.show-more {
+		margin-top: 0em;
+	}
+	
+	.show-more button {
+		border: none;
+		border-radius: 0px;
+		padding: .4em;
+		background: #666;
+		color: #fff;
+	}
+</style>
