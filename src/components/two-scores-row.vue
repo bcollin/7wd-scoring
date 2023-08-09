@@ -148,7 +148,6 @@
 </template>
 
 <style scoped>
-	.info { font-size: .875em; }
 	#notes-container:nth-child(2)::before { content: ""; }
 	tr.science { background: #efe; }
 	tr.military { background: #fee; }

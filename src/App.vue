@@ -182,6 +182,7 @@ function sumIt(e) {
 
 	.datetime { text-align: center; font-size: 1.2em; }
 
+	.info { font-size: .875em; font-weight: normal; }
 	table { display: block; margin-bottom: 1.5em; }
 	tbody { display: block; }
 	tr { display: block; margin-bottom: .75em; text-align: center; }
