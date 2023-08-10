@@ -32,7 +32,7 @@ function write(content, type) {
 		localStorage.setItem(STORAGE[type], contentString);
 	}
 	else {
-		console.log('Unknown setting.');
+		console.log('Unknown object.');
 	}
 }
 

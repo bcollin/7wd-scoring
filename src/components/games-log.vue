@@ -20,7 +20,7 @@
 	
 	// Reverse the order of the list and show maxItems items.
 	const sortedItemList = computed(() => { 
-		return props.gamesLogItems.reverse().slice(0, maxItems.value);
+		return props.gamesLogItems.toReversed().slice(0, maxItems.value);
 	});
 	
 	// Increase the value of maxItems by 6.
